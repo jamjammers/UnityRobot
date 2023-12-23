@@ -112,17 +112,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "577ec592-e83c-46db-8c0d-daaeb462cd15",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "8BitDo (XBOX Bluetooth)",
-                    "action": "rotate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "2D Vector",
                     "id": "845f183e-3e99-4f77-923d-d75ba1301fda",
                     "path": "2DVector",
@@ -170,6 +159,61 @@
                     "name": "right",
                     "id": "02c4de99-6cf3-47c2-9a20-ee5e2cc52e8e",
                     "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "10099bc8-c234-424c-b782-2ff189630ff5",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "rotate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "ca3c95ba-4438-405f-bb22-ebce18b479c5",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "d901a3ec-e7cc-4f05-ac41-e45ac8b56f84",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "2f25b712-3e38-4cbc-b934-4d0a9a3c651f",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "513bc439-0300-465b-b46b-4667798d73d2",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "8BitDo (XBOX Bluetooth)",
