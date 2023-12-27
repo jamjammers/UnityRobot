@@ -13,6 +13,8 @@ public class DriveTrain : MonoBehaviour
     public float Horiz;
     public float Vert;
 
+    public Vector3 tRotEuler;
+
     public float accelX;
     public float accelZ;
     public float accelRot;
@@ -26,7 +28,7 @@ public class DriveTrain : MonoBehaviour
     Motor backRight;
     Motor frontRight;
 
-
+    public Vector3 outThing;
 
     // [SerializeField]
     // private InputActionReference move;
@@ -46,35 +48,55 @@ public class DriveTrain : MonoBehaviour
         // Horiz = move.ReadValue<Vector2>().x;
         // Vert = move.ReadValue<Vector2>().y;
         // Debug.Log(move.ReadValue<Vector2>());
+       
         
     }
+
+    void upkeep(){
+        tRotEuler = transform.rotation.eulerAngles;
+    }
+
     void FixedUpdate()
     {
-        // str = (string) Horiz;
+        upkeep();
 
+        // dumbFieldCentric(accelX, accelZ);
 
-        moveX = Mathf.Abs(rb.velocity.x) < (10 * Mathf.Abs(accelX));
-        moveZ = Mathf.Abs(rb.velocity.z) < (10 * Mathf.Abs(accelZ));
-         if(moveX){
-             rb.velocity = new Vector3(rb.velocity.x + accelX * 1.5f, 0, rb.velocity.z);
-         }
-         if(moveZ){
-             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z+accelZ * 1.5f);
-         }
+        roboCentric(accelX, accelZ);
 
-         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 100) * accelRot * Time.fixedDeltaTime);
-         rb.MoveRotation(rb.rotation*rotation);
-        // Debug.Log(Input.GetAxis("Horiz"));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 400) * accelRot * Time.fixedDeltaTime);
+        rb.MoveRotation(rb.rotation * rotation);
+        //transform.rotation.z.toEuler;
+        Debug.Log(transform.rotation.w * 180);
 
     }
     //util
-    int getPolarity(int x){ return (int)((float) x / Mathf.Abs((float) x)); }
-    int getPolarity(double x){ return (int)((float) x / Mathf.Abs((float) x)); }
-    int getPolarity(float x){ return (int)((float) x / Mathf.Abs((float) x)); }
+    int getPolarity(int x){ return (int) ( (float) x / Mathf.Abs( (float) x)); }
+    int getPolarity(double x){ return (int) ( (float) x / Mathf.Abs( (float) x)); }
+    int getPolarity(float x){ return (int) ( (float) x / Mathf.Abs( (float) x)); }
 
     //stuff idk
-    void roboCentric(float strafement, float movement){
 
+    void dumbFieldCentric(float strafement, float movement){
+
+        moveX = Mathf.Abs(rb.velocity.x) < (10 * Mathf.Abs(strafement));
+        moveZ = Mathf.Abs(rb.velocity.z) < (10 * Mathf.Abs(movement));
+
+         if(moveX){
+             rb.velocity = new Vector3(rb.velocity.x + strafement * 1.5f, 0, rb.velocity.z);
+         }
+         if(moveZ){
+             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z + movement * 1.5f);
+         }
+    }
+    void roboCentric(float strafement, float movement){
+        //DOESN"T WORKNDIJFBVDFBHskufhvbsiodubgviosdrhvopsnvisnifvnjk
+        //TODO: make a speed cap
+        float angle = tRotEuler.y;
+        float zResult = Mathf.Cos(angle) * strafement + Mathf.Sin(angle) * movement;
+        float xResult =  - Mathf.Cos(angle) * movement + Mathf.Sin(angle) * strafement;  
+        outThing = new Vector3(xResult, 0, zResult);
+        rb.velocity = new Vector3(rb.velocity.x + xResult * 1.5f, 0, rb.velocity.z + zResult * 1.5f);
     }
 
     //inputmangerstuff
@@ -82,6 +104,7 @@ public class DriveTrain : MonoBehaviour
         accelX = ctx.ReadValue<Vector2>().x;
         accelZ = ctx.ReadValue<Vector2>().y;
     }
+
     public void reset(InputAction.CallbackContext ctx){
     //only does it on press, not when you release the button
         if(ctx.phase == (InputActionPhase)3){
@@ -89,6 +112,7 @@ public class DriveTrain : MonoBehaviour
             transform.rotation = Quaternion.Euler(-90, 0, -90);
         }
     }
+
     public void rotate(InputAction.CallbackContext ctx){
         accelRot = ctx.ReadValue<Vector2>().x;
     }
@@ -100,6 +124,7 @@ public class DriveTrain : MonoBehaviour
     public enum strafeDirection{
         RIGHT, LEFT
     }
+
     //classes
     public class Motor
     {
