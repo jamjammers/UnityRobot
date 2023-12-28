@@ -19,27 +19,18 @@ public class DriveTrain : MonoBehaviour
     public float accelZ;
     public float accelRot;
 
-    public bool moveX = true;
-    public bool moveZ = true;
-
-    //future stuff, individual wheel involvement
-    Motor backLeft;
-    Motor frontLeft;
-    Motor backRight;
-    Motor frontRight;
-
+    
     public Vector3 outThing;
+
+    public bool moveX;
+    public bool moveZ;
 
     // [SerializeField]
     // private InputActionReference move;
     // Start is called before the first frame update
     void Start()
     {
-        backLeft = new Motor(rotDirection.CLOCKWISE, strafeDirection.LEFT);
-        frontLeft = new Motor(rotDirection.CLOCKWISE, strafeDirection.RIGHT);
 
-        backRight = new Motor(rotDirection.COUNTERCLOCKWISE, strafeDirection.RIGHT);
-        frontRight = new Motor(rotDirection.COUNTERCLOCKWISE, strafeDirection.LEFT);
     }
 
     // Update is called once per frame
@@ -60,12 +51,10 @@ public class DriveTrain : MonoBehaviour
     {
         upkeep();
 
-        // dumbFieldCentric(accelX, accelZ);
+        // dumbFieldCentric(accelX, accelZ, accelRot);
 
-        roboCentric(accelX, accelZ);
+        roboCentric(accelX, accelZ, accelRot);
 
-        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 400) * accelRot * Time.fixedDeltaTime);
-        rb.MoveRotation(rb.rotation * rotation);
         //transform.rotation.z.toEuler;
         Debug.Log(transform.rotation.w * 180);
 
@@ -77,28 +66,64 @@ public class DriveTrain : MonoBehaviour
 
     //stuff idk
 
-    void dumbFieldCentric(float strafement, float movement){
+    void dumbFieldCentric(float strafement, float movement, float rot){
 
-        moveX = Mathf.Abs(rb.velocity.x) < (10 * Mathf.Abs(strafement));
-        moveZ = Mathf.Abs(rb.velocity.z) < (10 * Mathf.Abs(movement));
+        Vector3 IW = indWheel(strafement, movement, rot);
+
+        moveX = Mathf.Abs(rb.velocity.x) < (10 * Mathf.Abs(IW.x));
+        moveZ = Mathf.Abs(rb.velocity.z) < (10 * Mathf.Abs(IW.y));
 
          if(moveX){
-             rb.velocity = new Vector3(rb.velocity.x + strafement * 1.5f, 0, rb.velocity.z);
+             rb.velocity = rb.velocity + new Vector3(IW.x * 1.5f, 0, 0);
          }
          if(moveZ){
-             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z + movement * 1.5f);
+             rb.velocity = rb.velocity + new Vector3(0, 0, IW.y * 1.5f);
          }
-    }
-    void roboCentric(float strafement, float movement){
-        //DOESN"T WORKNDIJFBVDFBHskufhvbsiodubgviosdrhvopsnvisnifvnjk
-        //TODO: make a speed cap
-        float angle = tRotEuler.y;
-        float zResult = Mathf.Cos(angle) * strafement + Mathf.Sin(angle) * movement;
-        float xResult =  - Mathf.Cos(angle) * movement + Mathf.Sin(angle) * strafement;  
-        outThing = new Vector3(xResult, 0, zResult);
-        rb.velocity = new Vector3(rb.velocity.x + xResult * 1.5f, 0, rb.velocity.z + zResult * 1.5f);
+
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
+        rb.MoveRotation(rb.rotation * rotation);
     }
 
+    void roboCentric(float strafement, float movement, float rot){
+        //TODO: make a speed cap
+
+        Vector3 IW = indWheel(strafement, movement, rot);
+
+        float angle = tRotEuler.y * Mathf.PI / 180;
+
+        outThing = new Vector3(- Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x, 0, Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z);
+
+        moveX = Mathf.Abs(- Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x) < (10 * Mathf.Abs(IW.x));
+        moveZ = Mathf.Abs(Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z) < (10 * Mathf.Abs(IW.y));
+
+        //maybe make the speed cap based on the individual x and z components of the results, not the results themselves?
+        float zResult = moveZ? Mathf.Cos(angle) * IW.x + Mathf.Sin(angle) * IW.y : 0;
+        float xResult = moveX? - Mathf.Cos(angle) * IW.y + Mathf.Sin(angle) * IW.x : 0;
+
+        rb.velocity = new Vector3(rb.velocity.x + xResult * 1.5f, 0, rb.velocity.z + zResult * 1.5f);
+
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
+        rb.MoveRotation(rb.rotation * rotation);
+    }
+
+
+    Vector3 indWheel(float x, float y, float r){
+
+
+        float denominator = Mathf.Max(Mathf.Abs(x) + Mathf.Abs(y) + Mathf.Abs(r), 1);
+
+        float leftFrontPower =  (y + x + r) / denominator;
+        float leftBackPower =   (y - x + r) / denominator;
+        float rightFrontPower = (y - x - r) / denominator;
+        float rightBackPower =  (y + x - r) / denominator;
+
+
+        float rotDiff = (leftFrontPower + leftBackPower - rightFrontPower - rightBackPower) / 4;
+        float xDiff = (leftFrontPower - leftBackPower - rightFrontPower + rightBackPower) / 4;
+        float zDiff = (leftFrontPower + leftBackPower + rightFrontPower + rightBackPower) / 4;
+
+        return new Vector3(xDiff, zDiff, rotDiff);
+    }
     //inputmangerstuff
     public void onMove(InputAction.CallbackContext ctx){
         accelX = ctx.ReadValue<Vector2>().x;
@@ -107,7 +132,7 @@ public class DriveTrain : MonoBehaviour
 
     public void reset(InputAction.CallbackContext ctx){
     //only does it on press, not when you release the button
-        if(ctx.phase == (InputActionPhase)3){
+        if(ctx.phase == (InputActionPhase) 3){
             transform.position = new Vector3(0, 0.5f, 0);
             transform.rotation = Quaternion.Euler(-90, 0, -90);
         }
@@ -117,22 +142,7 @@ public class DriveTrain : MonoBehaviour
         accelRot = ctx.ReadValue<Vector2>().x;
     }
 
-    //enum :skull:
-    public enum rotDirection{
-        CLOCKWISE, COUNTERCLOCKWISE
-    }
-    public enum strafeDirection{
-        RIGHT, LEFT
-    }
 
     //classes
-    public class Motor
-    {
-        rotDirection rotDir;
-        strafeDirection strafeDir;
-        public Motor(rotDirection rd, strafeDirection sd){
-            rotDir = rd;
-            strafeDir = sd;
-        }
-    }
+
 }
