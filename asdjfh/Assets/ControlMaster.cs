@@ -53,6 +53,33 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""grabAll"",
+                    ""type"": ""Button"",
+                    ""id"": ""cb499202-af1d-4f14-9787-07bc359d4211"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""grabL"",
+                    ""type"": ""Button"",
+                    ""id"": ""523ec919-f7e5-4024-998f-a4284a659852"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""grabR"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c449f65-263f-4db6-a7c4-6c4b934505d1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -253,6 +280,39 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""action"": ""rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""994b1948-c858-46d7-94da-4fc8f14539d1"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""grabAll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73e1a9df-a541-42f6-b7ef-7a09c8bdf286"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""grabL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8d46c7f-cdcb-4cf6-874d-b8e92ade36c5"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""grabR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -286,6 +346,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         m_Player1_move = m_Player1.FindAction("move", throwIfNotFound: true);
         m_Player1_Reset = m_Player1.FindAction("Reset", throwIfNotFound: true);
         m_Player1_rotate = m_Player1.FindAction("rotate", throwIfNotFound: true);
+        m_Player1_grabAll = m_Player1.FindAction("grabAll", throwIfNotFound: true);
+        m_Player1_grabL = m_Player1.FindAction("grabL", throwIfNotFound: true);
+        m_Player1_grabR = m_Player1.FindAction("grabR", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -348,6 +411,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_move;
     private readonly InputAction m_Player1_Reset;
     private readonly InputAction m_Player1_rotate;
+    private readonly InputAction m_Player1_grabAll;
+    private readonly InputAction m_Player1_grabL;
+    private readonly InputAction m_Player1_grabR;
     public struct Player1Actions
     {
         private @ControlMaster m_Wrapper;
@@ -355,6 +421,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         public InputAction @move => m_Wrapper.m_Player1_move;
         public InputAction @Reset => m_Wrapper.m_Player1_Reset;
         public InputAction @rotate => m_Wrapper.m_Player1_rotate;
+        public InputAction @grabAll => m_Wrapper.m_Player1_grabAll;
+        public InputAction @grabL => m_Wrapper.m_Player1_grabL;
+        public InputAction @grabR => m_Wrapper.m_Player1_grabR;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -373,6 +442,15 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @rotate.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRotate;
                 @rotate.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRotate;
                 @rotate.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnRotate;
+                @grabAll.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabAll;
+                @grabAll.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabAll;
+                @grabAll.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabAll;
+                @grabL.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabL;
+                @grabL.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabL;
+                @grabL.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabL;
+                @grabR.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabR;
+                @grabR.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabR;
+                @grabR.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabR;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -386,6 +464,15 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @rotate.started += instance.OnRotate;
                 @rotate.performed += instance.OnRotate;
                 @rotate.canceled += instance.OnRotate;
+                @grabAll.started += instance.OnGrabAll;
+                @grabAll.performed += instance.OnGrabAll;
+                @grabAll.canceled += instance.OnGrabAll;
+                @grabL.started += instance.OnGrabL;
+                @grabL.performed += instance.OnGrabL;
+                @grabL.canceled += instance.OnGrabL;
+                @grabR.started += instance.OnGrabR;
+                @grabR.performed += instance.OnGrabR;
+                @grabR.canceled += instance.OnGrabR;
             }
         }
     }
@@ -404,5 +491,8 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnGrabAll(InputAction.CallbackContext context);
+        void OnGrabL(InputAction.CallbackContext context);
+        void OnGrabR(InputAction.CallbackContext context);
     }
 }

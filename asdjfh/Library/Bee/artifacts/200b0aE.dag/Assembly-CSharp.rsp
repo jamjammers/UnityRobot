@@ -355,6 +355,7 @@
 "Assets/ControlMaster.cs"
 "Assets/Scripts/cameraScript.cs"
 "Assets/Scripts/DriveTrain.cs"
+"Assets/Scripts/HornScript.cs"
 "Assets/Scripts/MotorClass.cs"
 "Assets/Scripts/Notes.cs"
 -langversion:9.0

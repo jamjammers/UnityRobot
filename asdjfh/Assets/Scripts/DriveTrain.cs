@@ -56,8 +56,6 @@ public class DriveTrain : MonoBehaviour
         roboCentric(accelX, accelZ, accelRot);
 
         //transform.rotation.z.toEuler;
-        Debug.Log(transform.rotation.w * 180);
-
     }
     //util
     int getPolarity(int x){ return (int) ( (float) x / Mathf.Abs( (float) x)); }
@@ -85,7 +83,6 @@ public class DriveTrain : MonoBehaviour
     }
 
     void roboCentric(float strafement, float movement, float rot){
-        //TODO: make a speed cap
 
         Vector3 IW = indWheel(strafement, movement, rot);
 
@@ -93,12 +90,11 @@ public class DriveTrain : MonoBehaviour
 
         outThing = new Vector3(- Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x, 0, Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z);
 
-        moveX = Mathf.Abs(- Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x) < (10 * Mathf.Abs(IW.x));
-        moveZ = Mathf.Abs(Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z) < (10 * Mathf.Abs(IW.y));
+        moveX = Mathf.Abs(Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x) < (10 * Mathf.Abs(IW.x));
+        moveZ = Mathf.Abs( - Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z) < (10 * Mathf.Abs(IW.y));
 
-        //maybe make the speed cap based on the individual x and z components of the results, not the results themselves?
-        float zResult = moveZ? Mathf.Cos(angle) * IW.x + Mathf.Sin(angle) * IW.y : 0;
-        float xResult = moveX? - Mathf.Cos(angle) * IW.y + Mathf.Sin(angle) * IW.x : 0;
+        float zResult = (moveX? Mathf.Cos(angle) * IW.x : 0) + (moveZ? Mathf.Sin(angle) * IW.y : 0);
+        float xResult = (moveZ? - Mathf.Cos(angle) * IW.y : 0) + (moveX? Mathf.Sin(angle) * IW.x : 0);
 
         rb.velocity = new Vector3(rb.velocity.x + xResult * 1.5f, 0, rb.velocity.z + zResult * 1.5f);
 

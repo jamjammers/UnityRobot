@@ -31,6 +31,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "grabAll",
+                    "type": "Button",
+                    "id": "cb499202-af1d-4f14-9787-07bc359d4211",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "grabL",
+                    "type": "Button",
+                    "id": "523ec919-f7e5-4024-998f-a4284a659852",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "grabR",
+                    "type": "Button",
+                    "id": "5c449f65-263f-4db6-a7c4-6c4b934505d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -231,6 +258,39 @@
                     "action": "rotate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "994b1948-c858-46d7-94da-4fc8f14539d1",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "grabAll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73e1a9df-a541-42f6-b7ef-7a09c8bdf286",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "grabL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c8d46c7f-cdcb-4cf6-874d-b8e92ade36c5",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "grabR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
