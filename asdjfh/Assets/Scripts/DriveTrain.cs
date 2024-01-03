@@ -51,9 +51,9 @@ public class DriveTrain : MonoBehaviour
     {
         upkeep();
 
-        // dumbFieldCentric(accelX, accelZ, accelRot);
+        dumbFieldCentric(accelX, accelZ, accelRot);
 
-        roboCentric(accelX, accelZ, accelRot);
+        // roboCentric(accelX, accelZ, accelRot);
 
         //transform.rotation.z.toEuler;
     }
