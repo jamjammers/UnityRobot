@@ -356,6 +356,7 @@
 "Assets/Scripts/cameraScript.cs"
 "Assets/Scripts/DriveTrain.cs"
 "Assets/Scripts/HornScript.cs"
+"Assets/Scripts/IntakeManager.cs"
 "Assets/Scripts/MotorClass.cs"
 "Assets/Scripts/Notes.cs"
 "Assets/Scripts/pixelSC.cs"
