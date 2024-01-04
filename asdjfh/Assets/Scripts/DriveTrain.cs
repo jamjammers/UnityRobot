@@ -30,7 +30,6 @@ public class DriveTrain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -45,6 +44,7 @@ public class DriveTrain : MonoBehaviour
 
     void upkeep(){
         tRotEuler = transform.rotation.eulerAngles;
+        // tRotEuler = new Vector3(tRotEuler.x>180? tRotEuler.x-360:tRotEuler.x,tRotEuler.y>180? tRotEuler.y-360:tRotEuler.y, tRotEuler.z>180? 360:0 );
     }
 
     void FixedUpdate()
@@ -56,6 +56,7 @@ public class DriveTrain : MonoBehaviour
         // roboCentric(accelX, accelZ, accelRot);
 
         //transform.rotation.z.toEuler;
+        // transform.rotation = Quaternion.Euler(tRotEuler.x, tRotEuler.y, tRotEuler.z);
     }
     //util
     int getPolarity(int x){ return (int) ( (float) x / Mathf.Abs( (float) x)); }
@@ -70,16 +71,17 @@ public class DriveTrain : MonoBehaviour
 
         moveX = Mathf.Abs(rb.velocity.x) < (10 * Mathf.Abs(IW.x));
         moveZ = Mathf.Abs(rb.velocity.z) < (10 * Mathf.Abs(IW.y));
+        rb.velocity = rb.velocity + new Vector3(moveX? IW.x * 1.5f: 0, -0.1f, moveZ? IW.y * 1.5f: 0);
+        //  if(moveX){
+        //      rb.velocity = rb.velocity + new Vector3(IW.x * 1.5f, 5, 0);
+        //  }
+        //  if(moveZ){
+        //      rb.velocity = rb.velocity + new Vector3(0, 5, IW.y * 1.5f);
+        //  }
 
-         if(moveX){
-             rb.velocity = rb.velocity + new Vector3(IW.x * 1.5f, 0, 0);
-         }
-         if(moveZ){
-             rb.velocity = rb.velocity + new Vector3(0, 0, IW.y * 1.5f);
-         }
-
-        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
-        rb.MoveRotation(rb.rotation * rotation);
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 4) * IW.z);
+        rb.MoveRotation(transform.rotation * rotation);
+        // rb.MoveRotation(Quaternion.Euler(tRotEuler.x, 0,  tRotEuler.y+4));
     }
 
     void roboCentric(float strafement, float movement, float rot){
@@ -96,10 +98,10 @@ public class DriveTrain : MonoBehaviour
         float zResult = (moveX? Mathf.Cos(angle) * IW.x : 0) + (moveZ? Mathf.Sin(angle) * IW.y : 0);
         float xResult = (moveZ? - Mathf.Cos(angle) * IW.y : 0) + (moveX? Mathf.Sin(angle) * IW.x : 0);
 
-        rb.velocity = new Vector3(rb.velocity.x + xResult * 1.5f, 0, rb.velocity.z + zResult * 1.5f);
+        rb.velocity = new Vector3(rb.velocity.x + xResult * 1.5f, -0.1f, rb.velocity.z + zResult * 1.5f);
 
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
-        rb.MoveRotation(rb.rotation * rotation);
+        rb.MoveRotation(transform.rotation * rotation);
     }
 
 

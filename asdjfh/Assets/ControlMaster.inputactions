@@ -272,6 +272,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0d8d2a1d-7b39-4ab7-b3e3-165d292ebde3",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "grabAll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "73e1a9df-a541-42f6-b7ef-7a09c8bdf286",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -283,8 +294,30 @@
                 },
                 {
                     "name": "",
+                    "id": "2b11842c-5c9b-4593-af01-515861e576f2",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "grabL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c8d46c7f-cdcb-4cf6-874d-b8e92ade36c5",
                     "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "grabR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e13edb47-e744-4056-9437-2f3a3c4591d0",
+                    "path": "<XInputController>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "8BitDo (XBOX Bluetooth)",

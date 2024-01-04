@@ -7,6 +7,8 @@ public class HornScript : MonoBehaviour
 
     public string type;
 
+    public string mode = "intaking";
+
     public float rotMin = 170;
     public float rotMax = 70;
 
@@ -15,31 +17,53 @@ public class HornScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rotMin = (type == "L")? 190 : 170;
-        rotMax = (type == "L")? 290 : 70;
+        switch(type){
+            case "L":
+                rotMin = 190;
+                rotMax = 290;
+                break;
+            case "R":
+                rotMin = 170;
+                rotMax = 70;
+                break;
+
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         rotZ = transform.rotation.eulerAngles.z;
-        if(type == "L"){
-            if(open && rotZ < rotMax){
-                transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-            }else if(!open && rotZ > rotMin){
-                transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-            }
-        }else if(type == "R"){
-            if(open && rotZ > rotMax){
-                transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-            }else if(!open && rotZ < rotMin){
-                transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-            }
+        switch(type){
+            case "L":
+                if(open && rotZ < rotMax){
+                    transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                }else if(!open && rotZ > rotMin){
+                    transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                }
+                break;
+            case "R":
+                if(open && rotZ > rotMax){
+                    transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                }else if(!open && rotZ < rotMin){
+                    transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                }
+                break;
+            case "claw":
+                if(open && rotZ > rotMax){
+                    transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                }else if(!open && rotZ < rotMin){
+                    transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                }
+                break;
         }
     }
     public void grabAll(){
-        open = !open;
-        Debug.Log("all");
+        if(type == "R" || type == "L"){
+            open = !open;
+        }else if(type == "claw" && mode == "intaking"){
+            open = !open;
+        }
     }
     public void grabR(){
         if(type == "R"){
