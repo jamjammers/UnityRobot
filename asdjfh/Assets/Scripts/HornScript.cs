@@ -9,11 +9,14 @@ public class HornScript : MonoBehaviour
 
     public string mode = "intaking";
 
-    public float rotMin = 170;
-    public float rotMax = 70;
+    public float rotMin = 0;
+    public float rotMax = 0;
 
-    public bool open = true;
+    public bool open = false;
     public float rotZ;
+
+    public Transform parentT;
+    public float parentRotZ;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,11 @@ public class HornScript : MonoBehaviour
                 rotMin = 170;
                 rotMax = 70;
                 break;
+            case "claw":
+                rotMin = 0;
+                rotMax = -90;
+                break;
+
 
         }
     }
@@ -33,7 +41,14 @@ public class HornScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        rotZ = transform.rotation.eulerAngles.z;
+        if(type == "R" || type == "L"){
+            parentRotZ = parentT.rotation.eulerAngles.z;
+            rotZ = transform.rotation.eulerAngles.z;
+            while(rotZ>360){rotZ -=360;}
+        }else{
+            rotZ = transform.rotation.eulerAngles.z;
+            while(rotZ>180){rotZ-=360;}
+        }
         switch(type){
             case "L":
                 if(open && rotZ < rotMax){
