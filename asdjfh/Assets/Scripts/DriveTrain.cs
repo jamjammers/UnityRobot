@@ -6,6 +6,8 @@ using static MotorClass;
 
 public class DriveTrain : MonoBehaviour
 {
+    //Edit → Project Settings → Physics → Gravity.
+
     private double velocityX = 0;
 
     public Rigidbody rb;
