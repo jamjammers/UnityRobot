@@ -346,6 +346,28 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""action"": ""grabR"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf92968d-cf0e-4915-b683-f73042e30141"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""grabR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7eb2a8fd-ef14-4041-9e8c-a01f6d1b919d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""grabR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -367,6 +389,17 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""New control scheme"",
+            ""bindingGroup"": ""New control scheme"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -517,6 +550,15 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         {
             if (m__8BitDoXBOXBluetoothSchemeIndex == -1) m__8BitDoXBOXBluetoothSchemeIndex = asset.FindControlSchemeIndex("8BitDo (XBOX Bluetooth)");
             return asset.controlSchemes[m__8BitDoXBOXBluetoothSchemeIndex];
+        }
+    }
+    private int m_NewcontrolschemeSchemeIndex = -1;
+    public InputControlScheme NewcontrolschemeScheme
+    {
+        get
+        {
+            if (m_NewcontrolschemeSchemeIndex == -1) m_NewcontrolschemeSchemeIndex = asset.FindControlSchemeIndex("New control scheme");
+            return asset.controlSchemes[m_NewcontrolschemeSchemeIndex];
         }
     }
     public interface IPlayer1Actions

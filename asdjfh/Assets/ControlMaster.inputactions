@@ -324,6 +324,28 @@
                     "action": "grabR",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf92968d-cf0e-4915-b683-f73042e30141",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "grabR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7eb2a8fd-ef14-4041-9e8c-a01f6d1b919d",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "grabR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
@@ -345,6 +367,17 @@
                 },
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "New control scheme",
+            "bindingGroup": "New control scheme",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }

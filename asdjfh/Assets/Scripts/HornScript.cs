@@ -17,6 +17,7 @@ public class HornScript : MonoBehaviour
 
     public Transform parentT;
     public float parentRotZ;
+    public float result;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,8 +34,6 @@ public class HornScript : MonoBehaviour
                 rotMin = 0;
                 rotMax = -90;
                 break;
-
-
         }
     }
 
@@ -43,40 +42,50 @@ public class HornScript : MonoBehaviour
     {
         if(type == "R" || type == "L"){
             parentRotZ = parentT.rotation.eulerAngles.z;
+            while(parentRotZ>180){ parentRotZ -= 360;}
             rotZ = transform.rotation.eulerAngles.z;
             while(rotZ>360){rotZ -=360;}
+            
+            result = rotZ+(type=="L"?parentRotZ-180:-parentRotZ);
+            while(result>180){ result -= 360;}
         }else{
             rotZ = transform.rotation.eulerAngles.z;
             while(rotZ>180){rotZ-=360;}
         }
-        switch(type){
-            case "L":
-                if(open && rotZ < rotMax){
-                    transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-                }else if(!open && rotZ > rotMin){
-                    transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                }
-                break;
-            case "R":
-                if(open && rotZ > rotMax){
-                    transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                }else if(!open && rotZ < rotMin){
-                    transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-                }
-                break;
-            case "claw":
-                if(open && rotZ > rotMax){
-                    transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                }else if(!open && rotZ < rotMin){
-                    transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-                }
-                break;
+        if(type == "test"){
+            if(open){
+                transform.Rotate(0,0,1,Space.Self);
+            }
         }
+        // switch(type){
+        //     case "L":
+        //         if(open && rotZ < rotMax){
+        //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+        //         }else if(!open && rotZ > rotMin){
+        //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+        //         }
+        //         break;
+        //     case "R":
+        //         if(open && rotZ > rotMax){
+        //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+        //         }else if(!open && rotZ < rotMin){
+        //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+        //         }
+        //         break;
+        //     case "claw":
+        //         if(open && rotZ > rotMax){
+        //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+        //         }else if(!open && rotZ < rotMin){
+        //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+        //         }
+        //         break;
+        // }
     }
     public void grabAll(){
         if(type == "R" || type == "L"){
             open = !open;
-        }else if(type == "claw" && mode == "intaking"){
+        }
+        if(type == "test"){
             open = !open;
         }
     }
