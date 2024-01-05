@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System;
 using System.Reflection;
 
@@ -22,16 +23,34 @@ public class IntakeManager : MonoBehaviour
         
     }
 
-    public void grabAll(){
+    public void IAgrabAll(){
+        if(mode == TPos.INTAKING || mode == TPos.PLACING){
+            if(rOpen==lOpen){
+                BroadcastMessage("grab"+(rOpen?"L":"R"));
+                rOpen = true;
+                lOpen = true;
+            }else{
+                BroadcastMessage("grabL");
+                BroadcastMessage("grabR");
+                rOpen = !rOpen;
+                lOpen = !lOpen;
+            }
+            if(rOpen&&lOpen){
+                BroadcastMessage("clawUp", TPos.INTAKING_INTERMEDIATE.getAxonAngle());
+            }
+        }
+    }
+    public void IAgrabL(){
+        
+    }
+    public void IAgrabR(){
+        
+    }
+    public void IAmoveArm(InputAction.CallbackContext ctx){
+        if(mode == TPos.PLACING){
+            gameObject.BroadcastMessage("moveArm", ctx.ReadValue<Vector2>().y);
 
-    }
-    public void grabL(){
-        
-    }
-    public void grabR(){
-        
-    }
-    public void moveArm(InputAction.CallbackContext ctx){
+        }
         //move up * ctx, angle of 60 from ground, broad cast it to slides if we are in intake mode, else not
     }
     
@@ -70,9 +89,10 @@ public static class TPosClass{
     }
 
     }
+
 public enum TPos{
     [TPosAttr(0, 0)]INTAKING,
     [TPosAttr(0, -100)]INTAKING_INTERMEDIATE,
     [TPosAttr(0, -150)]DRIVING_INTERMEDIATE,
     [TPosAttr(140,-160)]PLACING
-}
+    }

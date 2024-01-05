@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class HornScript : MonoBehaviour
 {
 
@@ -18,9 +17,13 @@ public class HornScript : MonoBehaviour
     public Transform parentT;
     public float parentRotZ;
     public float result;
+
+    public IntakeManager manager;
     // Start is called before the first frame update
     void Start()
     {
+        manager = GameObject.FindGameObjectWithTag("Imanager").GetComponent<IntakeManager>();
+
         switch(type){
             case "L":
                 rotMin = 190;
