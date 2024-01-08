@@ -8,8 +8,6 @@ public class DriveTrain : MonoBehaviour
 {
     //Edit → Project Settings → Physics → Gravity.
 
-    private double velocityX = 0;
-
     public Rigidbody rb;
     public GameObject center;
     public float Horiz;

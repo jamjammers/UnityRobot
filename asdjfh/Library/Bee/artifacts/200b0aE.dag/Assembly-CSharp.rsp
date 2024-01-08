@@ -353,6 +353,7 @@
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/ControlMaster.cs"
+"Assets/Scripts/alignerSCC.cs"
 "Assets/Scripts/cameraScript.cs"
 "Assets/Scripts/DriveTrain.cs"
 "Assets/Scripts/HornScript.cs"
@@ -360,6 +361,7 @@
 "Assets/Scripts/MotorClass.cs"
 "Assets/Scripts/Notes.cs"
 "Assets/Scripts/pixelSC.cs"
+"Assets/Scripts/slideSC.cs"
 -langversion:9.0
 
 /deterministic

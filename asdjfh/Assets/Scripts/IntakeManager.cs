@@ -8,7 +8,14 @@ using System.Reflection;
 public class IntakeManager : MonoBehaviour
 {
     bool rOpen = false;
+    prog rProg = prog.CLOSE;
     bool lOpen = false;
+    prog lProg = prog.CLOSE;
+
+    //only measures the vertical change
+    float ARMMAX = 0.25f;//0.3?
+    float ARMMIN = 0;
+    float armHeight = 0;
 
     TPos mode = TPos.INTAKING;
     // Start is called before the first frame update
@@ -23,10 +30,34 @@ public class IntakeManager : MonoBehaviour
         
     }
 
+    public void complete(string s){
+        switch(s){
+            case "L":
+                if(lProg == prog.TOCLOSE){
+                    lProg = prog.CLOSE;
+                }else if(lProg == prog.TOOPEN){
+                    lProg = prog.OPEN;
+                }
+                break;
+            case "R":
+                if(rProg == prog.TOCLOSE){
+                    rProg = prog.CLOSE;
+                }else if(rProg == prog.TOOPEN){
+                    rProg = prog.OPEN;
+                }
+                break;
+        }
+        }
+    public bool isPlacing(){
+        return mode == TPos.PLACING;
+        }
+
     public void IAgrabAll(){
         if(mode == TPos.INTAKING || mode == TPos.PLACING){
             if(rOpen==lOpen){
                 BroadcastMessage("grab"+(rOpen?"L":"R"));
+                if(!rOpen){ rProg = prog.TOOPEN; }
+                if(!lOpen){ lProg = prog.TOOPEN; }
                 rOpen = true;
                 lOpen = true;
             }else{
@@ -34,27 +65,56 @@ public class IntakeManager : MonoBehaviour
                 BroadcastMessage("grabR");
                 rOpen = !rOpen;
                 lOpen = !lOpen;
-            }
-            if(rOpen&&lOpen){
-                BroadcastMessage("clawUp", TPos.INTAKING_INTERMEDIATE.getAxonAngle());
+                if(rOpen){
+                    rProg = prog.TOOPEN;
+                    lProg = prog.TOOPEN;
+                }else{
+                    rProg = prog.TOCLOSE;
+                    lProg = prog.TOCLOSE;
+                }
             }
         }
-    }
+        }
+    
     public void IAgrabL(){
-        
-    }
-    public void IAgrabR(){
-        
-    }
-    public void IAmoveArm(InputAction.CallbackContext ctx){
-        if(mode == TPos.PLACING){
-            gameObject.BroadcastMessage("moveArm", ctx.ReadValue<Vector2>().y);
-
+        if(mode == TPos.INTAKING || mode == TPos.PLACING){
+            BroadcastMessage("grabL");
+            lOpen = !lOpen;
+            if(lOpen){ lProg = prog.TOOPEN; }
+            else{ lProg = prog.TOCLOSE; }
         }
+        }
+    public void IAgrabR(){
+        if(mode == TPos.INTAKING || mode == TPos.PLACING){
+            BroadcastMessage("grabR");
+            rOpen = !rOpen;
+            if(rOpen){ rProg = prog.TOOPEN; }
+            else{ rProg = prog.TOCLOSE; }
+        }    
+        }
+    public void IAmoveArm(InputAction.CallbackContext ctx){
+        armHeight += ctx.ReadValue<Vector2>().y;
+        if(armHeight<ARMMIN){
+            armHeight = ARMMIN;
+        }
+        if(armHeight>ARMMAX){
+            armHeight = ARMMAX;
+        }
+        gameObject.BroadcastMessage("setArm", armHeight);
+
+        
         //move up * ctx, angle of 60 from ground, broad cast it to slides if we are in intake mode, else not
+        }
+//
+
+}
+
+
+public enum prog{
+    CLOSE, TOCLOSE, TOOPEN, OPEN
     }
     
-}
+
 public class TPosAttr : Attribute{
         internal TPosAttr(float axonAngle, float clawAngle){
             this.axonAngle = axonAngle;

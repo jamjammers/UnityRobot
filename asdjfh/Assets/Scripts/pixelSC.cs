@@ -16,7 +16,7 @@ public class pixelSC : MonoBehaviour
         
     }
     void OnCollisionEnter(Collision col){
-        Collider child = col.GetContact(0).thisCollider;
-        Debug.Log(child.name);
+        
+        // Debug.Log(col.transform.name);
     }
 }

@@ -6,12 +6,13 @@ public class HornScript : MonoBehaviour
 
     public string type;
 
-    public string mode = "intaking";
+    // public string mode = "intaking";
 
     public float rotMin = 0;
     public float rotMax = 0;
 
     public bool open = false;
+    public bool going = true;
     public float rotZ;
 
     public Transform parentT;
@@ -22,8 +23,7 @@ public class HornScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        manager = GameObject.FindGameObjectWithTag("Imanager").GetComponent<IntakeManager>();
-
+        manager = GameObject.Find("Intake (Manager)").GetComponent<IntakeManager>();
         switch(type){
             case "L":
                 rotMin = 190;
@@ -43,6 +43,7 @@ public class HornScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //setup the result
         if(type == "R" || type == "L"){
             parentRotZ = parentT.rotation.eulerAngles.z;
             while(parentRotZ>180){ parentRotZ -= 360;}
@@ -54,51 +55,49 @@ public class HornScript : MonoBehaviour
         }else{
             rotZ = transform.rotation.eulerAngles.z;
             while(rotZ>180){rotZ-=360;}
-        }
-        if(type == "test"){
-            if(open){
-                transform.Rotate(0,0,1,Space.Self);
             }
-        }
-        // switch(type){
-        //     case "L":
-        //         if(open && rotZ < rotMax){
-        //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-        //         }else if(!open && rotZ > rotMin){
-        //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-        //         }
-        //         break;
-        //     case "R":
-        //         if(open && rotZ > rotMax){
-        //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-        //         }else if(!open && rotZ < rotMin){
-        //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-        //         }
-        //         break;
-        //     case "claw":
-        //         if(open && rotZ > rotMax){
-        //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-        //         }else if(!open && rotZ < rotMin){
-        //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-        //         }
-        //         break;
-        // }
-    }
-    public void grabAll(){
-        if(type == "R" || type == "L"){
-            open = !open;
-        }
-        if(type == "test"){
-            open = !open;
+        
+        if(going){
+            // switch(type){
+            //     case "L":
+            //         if(open && result < rotMax){
+            //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+            //         }else if(!open && result > rotMin){
+            //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+            //         }else{
+            //             manager.complete(type);
+            //             going = false;
+            //         }
+            //         break;
+            //     case "R":
+            //         if(open && result > rotMax){
+            //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+            //         }else if(!open && result < rotMin){
+            //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+            //         }else{
+            //             manager.complete(type);
+            //             going = false;
+            //         }
+            //         break;
+            // //     case "claw":
+            // //         if(open && result > rotMax){
+            // //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+            // //         }else if(!open && result < rotMin){
+            // //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+            // //         }
+            // //         break;
+            // }
         }
     }
     public void grabR(){
         if(type == "R"){
+            going = true;
             open = !open;
         }
     }
     public void grabL(){
         if(type == "L"){
+            going = true;
             open = !open;
         }
     }
