@@ -19,15 +19,16 @@ public class HornScript : MonoBehaviour
     public float parentRotZ;
     public float result;
 
+    public GameObject managerObj;
     public IntakeManager manager;
     // Start is called before the first frame update
     void Start()
     {
-        manager = GameObject.Find("Intake (Manager)").GetComponent<IntakeManager>();
+        manager = managerObj.GetComponent<IntakeManager>();
         switch(type){
             case "L":
-                rotMin = 190;
-                rotMax = 290;
+                rotMin = 10;
+                rotMax = 110;
                 break;
             case "R":
                 rotMin = 170;
@@ -51,42 +52,43 @@ public class HornScript : MonoBehaviour
             while(rotZ>360){rotZ -=360;}
             
             result = rotZ+(type=="L"?parentRotZ-180:-parentRotZ);
-            while(result>180){ result -= 360;}
+            while(result<0){ result += 360;}
         }else{
             rotZ = transform.rotation.eulerAngles.z;
             while(rotZ>180){rotZ-=360;}
-            }
+        }
         
+
         if(going){
-            // switch(type){
-            //     case "L":
-            //         if(open && result < rotMax){
-            //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-            //         }else if(!open && result > rotMin){
-            //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-            //         }else{
-            //             manager.complete(type);
-            //             going = false;
-            //         }
-            //         break;
-            //     case "R":
+            switch(type){
+                case "L":
+                    if(open && result < rotMax){
+                        transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                    }else if(!open && result > rotMin){
+                        transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                    }else{
+                        // manager.complete(type);
+                        going = false;
+                    }
+                    break;
+                case "R":
+                    if(open && result > rotMax){
+                        transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                    }else if(!open && result < rotMin){
+                        transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                    }else{
+                        // manager.complete(type);
+                        going = false;
+                    }
+                    break;
+            //     case "claw":
             //         if(open && result > rotMax){
             //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
             //         }else if(!open && result < rotMin){
             //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-            //         }else{
-            //             manager.complete(type);
-            //             going = false;
             //         }
             //         break;
-            // //     case "claw":
-            // //         if(open && result > rotMax){
-            // //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-            // //         }else if(!open && result < rotMin){
-            // //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-            // //         }
-            // //         break;
-            // }
+            }
         }
     }
     public void grabR(){

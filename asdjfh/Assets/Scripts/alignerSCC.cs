@@ -7,7 +7,7 @@ public class alignerSCC : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("baudf");
     }
 
     // Update is called once per frame
@@ -15,7 +15,7 @@ public class alignerSCC : MonoBehaviour
     {
         
     }
-    void OnCollisionEnter(Collision col){
+    void OnCollisionStay(Collision col){
         Debug.Log(col.gameObject.name);
     }
 }
