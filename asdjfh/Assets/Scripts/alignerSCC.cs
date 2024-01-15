@@ -15,7 +15,7 @@ public class alignerSCC : MonoBehaviour
     {
         
     }
-    void OnCollisionStay(Collision col){
+    void OnCollisionEnter(Collision col){
         Debug.Log(col.gameObject.name);
     }
 }
