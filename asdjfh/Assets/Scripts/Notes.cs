@@ -6,4 +6,13 @@ public class Notes : MonoBehaviour
 {
     [TextArea]
     public string notes = "[Placeholder]";
+    
+    public Vector3 tRotEuler;
+    public Quaternion tRot;
+
+    public void Update(){
+        
+        tRotEuler = transform.rotation.eulerAngles;
+        tRot = transform.rotation;
+    }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class alignerSCC : MonoBehaviour
 {
+
+
+    public Vector3 tRotEuler;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,9 +16,7 @@ public class alignerSCC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        tRotEuler = transform.rotation.eulerAngles;
         
-    }
-    void OnCollisionEnter(Collision col){
-        Debug.Log(col.gameObject.name);
     }
 }
