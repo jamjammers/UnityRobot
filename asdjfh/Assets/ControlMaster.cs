@@ -80,6 +80,15 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""arm"",
+                    ""type"": ""Button"",
+                    ""id"": ""d3191ad7-d279-4981-9b97-4504f07b3715"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -349,23 +358,12 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bf92968d-cf0e-4915-b683-f73042e30141"",
-                    ""path"": """",
+                    ""id"": ""e5552b95-7920-4f1a-a414-264dede14535"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""8BitDo (XBOX Bluetooth)"",
-                    ""action"": ""grabR"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7eb2a8fd-ef14-4041-9e8c-a01f6d1b919d"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""grabR"",
+                    ""action"": ""arm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -415,6 +413,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         m_Player1_grabAll = m_Player1.FindAction("grabAll", throwIfNotFound: true);
         m_Player1_grabL = m_Player1.FindAction("grabL", throwIfNotFound: true);
         m_Player1_grabR = m_Player1.FindAction("grabR", throwIfNotFound: true);
+        m_Player1_arm = m_Player1.FindAction("arm", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -480,6 +479,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_grabAll;
     private readonly InputAction m_Player1_grabL;
     private readonly InputAction m_Player1_grabR;
+    private readonly InputAction m_Player1_arm;
     public struct Player1Actions
     {
         private @ControlMaster m_Wrapper;
@@ -490,6 +490,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         public InputAction @grabAll => m_Wrapper.m_Player1_grabAll;
         public InputAction @grabL => m_Wrapper.m_Player1_grabL;
         public InputAction @grabR => m_Wrapper.m_Player1_grabR;
+        public InputAction @arm => m_Wrapper.m_Player1_arm;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -517,6 +518,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @grabR.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabR;
                 @grabR.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabR;
                 @grabR.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnGrabR;
+                @arm.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnArm;
+                @arm.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnArm;
+                @arm.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnArm;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -539,6 +543,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @grabR.started += instance.OnGrabR;
                 @grabR.performed += instance.OnGrabR;
                 @grabR.canceled += instance.OnGrabR;
+                @arm.started += instance.OnArm;
+                @arm.performed += instance.OnArm;
+                @arm.canceled += instance.OnArm;
             }
         }
     }
@@ -569,5 +576,6 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         void OnGrabAll(InputAction.CallbackContext context);
         void OnGrabL(InputAction.CallbackContext context);
         void OnGrabR(InputAction.CallbackContext context);
+        void OnArm(InputAction.CallbackContext context);
     }
 }

@@ -10,7 +10,7 @@ public class alignerSCC : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("baudf");
+        // Debug.Log("baudf");
     }
 
     // Update is called once per frame

@@ -95,12 +95,15 @@ public class HornScript : MonoBehaviour
         if(type == "R"){
             going = true;
             open = !open;
+            BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
         }
     }
     public void grabL(){
         if(type == "L"){
             going = true;
             open = !open;
+            BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
+
         }
     }
 }

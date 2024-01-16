@@ -9,7 +9,9 @@ public class pixelSC : MonoBehaviour
     public Vector3 tRotEuler;
     public int count = 0;
     public int c = 0;
-    public List<string> d;
+    public List<Collider> d;
+
+    public Rigidbody rb;
     void Start()
     {
         
@@ -20,6 +22,10 @@ public class pixelSC : MonoBehaviour
     {
         
         count = d.Count;
+        if(count>2){
+            Destroy(rb);
+            transform.SetParent(d[0].gameObject.transform.parent);
+        }
         if(count != 0){
             c=count;
         }
@@ -39,7 +45,7 @@ public class pixelSC : MonoBehaviour
         
         Collider child = col.GetContact(0).otherCollider;
         if(child.name == "Squisher"){
-            d.Add(child.name);
+            d.Add(child);
 
         }
         // Collider test = col.GetContact(1).otherCollider;
@@ -59,4 +65,11 @@ public class pixelSC : MonoBehaviour
     //     }
         
     // }
+    public void release(){
+        Debug.Log("Baudf");
+        rb = gameObject.AddComponent(typeof(Rigidbody)) as Rigidbody;
+        rb.angularDrag = 4;
+        rb.drag = 4;
+        transform.parent = null;
+    }
 }

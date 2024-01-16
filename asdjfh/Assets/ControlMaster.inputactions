@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "arm",
+                    "type": "Button",
+                    "id": "d3191ad7-d279-4981-9b97-4504f07b3715",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -327,23 +336,12 @@
                 },
                 {
                     "name": "",
-                    "id": "bf92968d-cf0e-4915-b683-f73042e30141",
-                    "path": "",
+                    "id": "e5552b95-7920-4f1a-a414-264dede14535",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "8BitDo (XBOX Bluetooth)",
-                    "action": "grabR",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7eb2a8fd-ef14-4041-9e8c-a01f6d1b919d",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "grabR",
+                    "action": "arm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

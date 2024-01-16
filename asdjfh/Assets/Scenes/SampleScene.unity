@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589245, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276774, g: 0.21589114, b: 0.2978246, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -516,7 +516,7 @@ MonoBehaviour:
     m_ActionName: Player 1/rotate[/XInputControllerWindows/rightStick/left,/XInputControllerWindows/rightStick/right]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 116070418}
+      - m_Target: {fileID: 744812480}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: BroadcastMessage
         m_Mode: 5
@@ -532,7 +532,7 @@ MonoBehaviour:
     m_ActionName: Player 1/grabAll[/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 116070418}
+      - m_Target: {fileID: 744812480}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: BroadcastMessage
         m_Mode: 5
@@ -548,7 +548,7 @@ MonoBehaviour:
     m_ActionName: Player 1/grabL[/Keyboard/q]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 116070418}
+      - m_Target: {fileID: 744812480}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: BroadcastMessage
         m_Mode: 5
@@ -99304,6 +99304,7 @@ MonoBehaviour:
   count: 0
   c: 0
   d: []
+  rb: {fileID: 8445432085988316941}
 --- !u!33 &8450922829735550923
 MeshFilter:
   m_ObjectHideFlags: 0
