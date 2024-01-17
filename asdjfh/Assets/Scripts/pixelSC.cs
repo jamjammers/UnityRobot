@@ -24,7 +24,7 @@ public class pixelSC : MonoBehaviour
         count = d.Count;
         if(count>2){
             Destroy(rb);
-            transform.SetParent(d[0].gameObject.transform.parent);
+            transform.SetParent(d[0].gameObject.transform.parent.parent);
         }
         if(count != 0){
             c=count;
