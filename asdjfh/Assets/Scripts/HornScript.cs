@@ -27,8 +27,8 @@ public class HornScript : MonoBehaviour
         manager = managerObj.GetComponent<IntakeManager>();
         switch(type){
             case "L":
-                rotMin = 10+180;
-                rotMax = 110+180;
+                rotMin = 10;
+                rotMax = 110;
                 break;
             case "R":
                 rotMin = 170+180;
@@ -50,7 +50,7 @@ public class HornScript : MonoBehaviour
             while(parentRotZ>180){ parentRotZ -= 360;}
             rotZ = 180+transform.localRotation.eulerAngles.z;
             while(rotZ>360){rotZ -=360;}
-            
+            while (rotZ<0){rotZ +=360;}
             result = rotZ+(type=="L"?parentRotZ-180:-parentRotZ);
             while(result<0){ result += 360;}
         }else{
@@ -62,9 +62,9 @@ public class HornScript : MonoBehaviour
         if(going){
             switch(type){
                 case "L":
-                    if(open && result < rotMax){
+                    if(open && rotZ < rotMax){
                         transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-                    }else if(!open && result > rotMin){
+                    }else if(!open && rotZ > rotMin){
                         transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
                     }else{
                         // manager.complete(type);
@@ -72,22 +72,22 @@ public class HornScript : MonoBehaviour
                     }
                     break;
                 case "R":
-                    if(open && result > rotMax){
+                    if(open && (rotZ > rotMax)){
                         transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                    }else if(!open && result < rotMin){
+                    }else if(!open && rotZ < rotMin){
                         transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
                     }else{
                         // manager.complete(type);
                         going = false;
                     }
                     break;
-            //     case "claw":
-            //         if(open && result > rotMax){
-            //             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-            //         }else if(!open && result < rotMin){
-            //             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-            //         }
-            //         break;
+                case "claw":
+                    if(open && rotZ > rotMax){
+                        transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                    }else if(!open && (rotZ < rotMin)){
+                        transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                    }
+                    break;
             }
         }
     }
@@ -106,7 +106,10 @@ public class HornScript : MonoBehaviour
 
         }
     }
-    public void moreArm(){
-
+    public void moveArm(){
+        if(type == "claw"){
+            going = true;
+            open = !open;
+        }
     }
 }

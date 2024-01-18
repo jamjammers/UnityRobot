@@ -12,6 +12,8 @@ public class IntakeManager : MonoBehaviour
     bool lOpen = false;
     prog lProg = prog.CLOSE;
 
+    bool toIntermediate = false;
+
     //only measures the vertical change
     float ARMMAX = 0.25f;//0.3?
     float ARMMIN = 0;
@@ -60,7 +62,7 @@ public class IntakeManager : MonoBehaviour
                 if(!lOpen){ lProg = prog.TOCLOSE; }
                 rOpen = false;
                 lOpen = false;
-                toIntermediate = true;
+                // toIntermediate = true;
             }else{
                 BroadcastMessage("grabL");
                 BroadcastMessage("grabR");
