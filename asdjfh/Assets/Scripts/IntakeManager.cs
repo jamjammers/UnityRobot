@@ -56,10 +56,11 @@ public class IntakeManager : MonoBehaviour
         if(mode == TPos.INTAKING || mode == TPos.PLACING){
             if(rOpen==lOpen){
                 BroadcastMessage("grab"+(rOpen?"L":"R"));
-                if(!rOpen){ rProg = prog.TOOPEN; }
-                if(!lOpen){ lProg = prog.TOOPEN; }
-                rOpen = true;
-                lOpen = true;
+                if(!rOpen){ rProg = prog.TOCLOSE; }
+                if(!lOpen){ lProg = prog.TOCLOSE; }
+                rOpen = false;
+                lOpen = false;
+                toIntermediate = true;
             }else{
                 BroadcastMessage("grabL");
                 BroadcastMessage("grabR");

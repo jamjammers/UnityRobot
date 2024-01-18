@@ -14730,7 +14730,7 @@ GameObject:
   - component: {fileID: 7491391021485369533}
   - component: {fileID: 7491391021485369534}
   m_Layer: 0
-  m_Name: Squisher
+  m_Name: SquisherB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99301,9 +99301,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tRotEuler: {x: 0, y: 0, z: 0}
-  count: 0
   c: 0
-  d: []
+  isBase: 0
+  wasBase: 0
+  baseChain: 0000000000
+  anyBase: 0
+  target: {fileID: 0}
   rb: {fileID: 8445432085988316941}
 --- !u!33 &8450922829735550923
 MeshFilter:
@@ -104063,7 +104066,7 @@ GameObject:
   - component: {fileID: 8702484098961032343}
   - component: {fileID: 8702484098961032344}
   m_Layer: 0
-  m_Name: Squisher
+  m_Name: SquisherB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

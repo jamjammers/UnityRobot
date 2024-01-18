@@ -27,12 +27,12 @@ public class HornScript : MonoBehaviour
         manager = managerObj.GetComponent<IntakeManager>();
         switch(type){
             case "L":
-                rotMin = 10;
-                rotMax = 110;
+                rotMin = 10+180;
+                rotMax = 110+180;
                 break;
             case "R":
-                rotMin = 170;
-                rotMax = 70;
+                rotMin = 170+180;
+                rotMax = 70+180;
                 break;
             case "claw":
                 rotMin = 0;
@@ -48,7 +48,7 @@ public class HornScript : MonoBehaviour
         if(type == "R" || type == "L"){
             parentRotZ = parentT.rotation.eulerAngles.z;
             while(parentRotZ>180){ parentRotZ -= 360;}
-            rotZ = transform.rotation.eulerAngles.z;
+            rotZ = 180+transform.localRotation.eulerAngles.z;
             while(rotZ>360){rotZ -=360;}
             
             result = rotZ+(type=="L"?parentRotZ-180:-parentRotZ);
@@ -105,5 +105,8 @@ public class HornScript : MonoBehaviour
             BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
 
         }
+    }
+    public void moreArm(){
+
     }
 }

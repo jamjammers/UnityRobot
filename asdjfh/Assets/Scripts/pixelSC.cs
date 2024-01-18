@@ -7,9 +7,16 @@ public class pixelSC : MonoBehaviour
     // Start is called before the first frame update
     
     public Vector3 tRotEuler;
-    public int count = 0;
     public int c = 0;
-    public List<Collider> d;
+
+    public bool isBase = false;
+    public bool wasBase = false;
+
+    public bool[] baseChain = {false, false, false, false, false};
+    public bool anyBase;
+
+
+    public Collider target;
 
     public Rigidbody rb;
     void Start()
@@ -21,55 +28,45 @@ public class pixelSC : MonoBehaviour
     void Update()
     {
         
-        count = d.Count;
-        if(count>2){
+        if(c>1&&anyBase){
             Destroy(rb);
-            transform.SetParent(d[0].gameObject.transform.parent.parent);
+            transform.SetParent(target.gameObject.transform.parent.parent.parent);
+            c = 0;
         }
-        if(count != 0){
-            c=count;
+        wasBase = isBase;
+        isBase = false;
+        for(int i = baseChain.Length-1;i>0;i--){
+            baseChain[i] = baseChain[i-1];
         }
-        d.Clear();
-        // count = 0;   
+        baseChain[0] = wasBase;
+        //for(i){ chain[i] = chain[i-1] } chain[0] = wasBase;
+        anyBase = chain(baseChain);
+        c=0;
     }
-    // void OnCollisionEnter(Collision col){
-    //     Collider child = col.GetContact(0).otherCollider;
-    //     // Debug.Log(child.name);
-    //     if(child.name == "Squisher"||child.name =="aCol"){
-    //         Debug.Log(child.name);
-
-    //         count ++;
-    //     }
-    // }
     void OnCollisionStay(Collision col){
         
         Collider child = col.GetContact(0).otherCollider;
         if(child.name == "Squisher"){
-            d.Add(child);
+            target = child;
+            c++;
 
+        }else if(child.name == "SquisherB"){
+            isBase = true;
         }
-        // Collider test = col.GetContact(1).otherCollider;
         
-        // Debug.Log(child.name);
-        // if(child.name == "Squisher"||child.name =="aCol"){
-        //     Debug.Log(child.name);
-
-        //     count ++;
-        // }
-        // count = d.Count;
-
     }
-    // void OnCollisionExit(Collision col){
-    //     if(count>0&&col.gameObject.name == "Main Assembly"){
-    //         count--;
-    //     }
-        
-    // }
     public void release(){
         Debug.Log("Baudf");
+        c=0;
         rb = gameObject.AddComponent(typeof(Rigidbody)) as Rigidbody;
         rb.angularDrag = 4;
         rb.drag = 4;
         transform.parent = null;
+    }
+    private bool chain(bool[] ch){
+        foreach(bool x in ch){
+            if(x){return true; }
+        }
+        return false;
     }
 }
