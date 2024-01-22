@@ -29,7 +29,7 @@ public class IntakeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        (1==1 )?Debug.Log("hi"):Debug.Log("no");
     }
 
     public void complete(string s){
@@ -37,6 +37,7 @@ public class IntakeManager : MonoBehaviour
             case "L":
                 if(lProg == prog.TOCLOSE){
                     lProg = prog.CLOSE;
+                    if(toIntermediate){BroadcastMessage("moveClaw");}
                 }else if(lProg == prog.TOOPEN){
                     lProg = prog.OPEN;
                 }
@@ -62,7 +63,7 @@ public class IntakeManager : MonoBehaviour
                 if(!lOpen){ lProg = prog.TOCLOSE; }
                 rOpen = false;
                 lOpen = false;
-                // toIntermediate = true;
+                toIntermediate = true;
             }else{
                 BroadcastMessage("grabL");
                 BroadcastMessage("grabR");
@@ -72,6 +73,7 @@ public class IntakeManager : MonoBehaviour
                     rProg = prog.TOOPEN;
                     lProg = prog.TOOPEN;
                 }else{
+                    toIntermediate = true;
                     rProg = prog.TOCLOSE;
                     lProg = prog.TOCLOSE;
                 }
