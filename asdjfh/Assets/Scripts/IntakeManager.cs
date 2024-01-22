@@ -29,7 +29,7 @@ public class IntakeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        (1==1 )?Debug.Log("hi"):Debug.Log("no");
+
     }
 
     public void complete(string s){
