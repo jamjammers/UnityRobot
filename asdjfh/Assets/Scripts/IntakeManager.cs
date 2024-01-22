@@ -111,17 +111,17 @@ public class IntakeManager : MonoBehaviour
         //move up * ctx, angle of 60 from ground, broad cast it to slides if we are in intake mode, else not
         }
         public void grabAll(){
-            BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
+            Debug.Log("Deprecated");
 
         }
-        public void grabL(){
-            BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
+        // public void grabL(){
+        //     BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
 
-        }
-        public void grabR(){
-            BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
+        // }
+        // public void grabR(){
+        //     BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
 
-        }
+        // }
 //
 
 }

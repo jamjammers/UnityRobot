@@ -30,7 +30,7 @@ public class pixelSC : MonoBehaviour
         
         if(c>1&&anyBase){
             Destroy(rb);
-            transform.SetParent(target.gameObject.transform.parent.parent.parent);
+            transform.SetParent(target.gameObject.transform.parent.parent);
             c = 0;
         }
         wasBase = isBase;

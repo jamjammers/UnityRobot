@@ -27,15 +27,15 @@ public class HornScript : MonoBehaviour
         manager = managerObj.GetComponent<IntakeManager>();
         switch(type){
             case "L":
-                rotMin = 10;
+                rotMin = 0;
                 rotMax = 110;
                 break;
             case "R":
-                rotMin = 170+180;
-                rotMax = 70+180;
+                rotMin = 360;
+                rotMax = 250;
                 break;
             case "claw":
-                rotMin = 0;
+                rotMin = -10;
                 rotMax = -90;
                 break;
         }
@@ -106,7 +106,7 @@ public class HornScript : MonoBehaviour
 
         }
     }
-    public void moveArm(){
+    public void moveClaw(){
         if(type == "claw"){
             going = true;
             open = !open;

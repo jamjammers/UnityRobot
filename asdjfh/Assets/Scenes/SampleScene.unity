@@ -562,6 +562,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5c449f65-263f-4db6-a7c4-6c4b934505d1
     m_ActionName: Player 1/grabR1[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 744812480}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: BroadcastMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: moveClaw
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d3191ad7-d279-4981-9b97-4504f07b3715
+    m_ActionName: Player 1/arm[/Keyboard/x]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player 1
@@ -103175,7 +103191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184e0f89837c1486d94aa26f1fa11dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: n
+  type: claw
   rotMin: 0
   rotMax: 0
   open: 0
