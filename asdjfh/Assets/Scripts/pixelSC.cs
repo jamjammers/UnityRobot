@@ -15,13 +15,14 @@ public class pixelSC : MonoBehaviour
     public bool[] baseChain = {false, false, false, false, false};
     public bool anyBase;
 
+    public Material[] Colors = {};
 
     public Collider target;
 
     public Rigidbody rb;
     void Start()
     {
-        
+        gameObject.GetComponent<MeshRenderer> ().material = Colors[(int)UnityEngine.Random.Range(0,Colors.Length)];
     }
 
     // Update is called once per frame
@@ -56,7 +57,6 @@ public class pixelSC : MonoBehaviour
         
     }
     public void release(){
-        Debug.Log("Baudf");
         c=0;
         rb = gameObject.AddComponent(typeof(Rigidbody)) as Rigidbody;
         rb.angularDrag = 4;

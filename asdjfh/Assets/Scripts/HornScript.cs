@@ -15,9 +15,6 @@ public class HornScript : MonoBehaviour
     public bool going = true;
     public float rotZ;
 
-    public Transform parentT;
-    public float parentRotZ;
-    public float result;
 
     public GameObject managerObj;
     public IntakeManager manager;
@@ -35,7 +32,7 @@ public class HornScript : MonoBehaviour
                 rotMax = 250;
                 break;
             case "claw":
-                rotMin = -10;
+                rotMin = 0;
                 rotMax = -90;
                 break;
         }
@@ -46,13 +43,14 @@ public class HornScript : MonoBehaviour
     {
         //setup the result
         if(type == "R" || type == "L"){
-            parentRotZ = parentT.rotation.eulerAngles.z;
-            while(parentRotZ>180){ parentRotZ -= 360;}
             rotZ = 180+transform.localRotation.eulerAngles.z;
-            while(rotZ>360){rotZ -=360;}
-            while (rotZ<0){rotZ +=360;}
-            result = rotZ+(type=="L"?parentRotZ-180:-parentRotZ);
-            while(result<0){ result += 360;}
+            if(type == "L"){
+                while(rotZ>180){rotZ -=360;}
+                while (rotZ<-180){rotZ +=360;}
+            }else{
+                while(rotZ>360){rotZ -=360;}
+                while (rotZ<0){rotZ +=360;}
+            }
         }else{
             rotZ = transform.rotation.eulerAngles.z;
             while(rotZ>180){rotZ-=360;}
@@ -62,30 +60,58 @@ public class HornScript : MonoBehaviour
         if(going){
             switch(type){
                 case "L":
-                    if(open && rotZ < rotMax){
-                        transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-                    }else if(!open && rotZ > rotMin){
-                        transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                    if(open){
+                        if(rotZ < rotMax){
+                            transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                        }else{
+                            manager.complete(type);
+                            transform.Rotate(0.0f, 0.0f, rotMax-rotZ, Space.Self);
+                            going = false;
+                        }
                     }else{
-                        // manager.complete(type);
-                        going = false;
+                        if(rotZ > rotMin){
+                            transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                        }else{
+                            manager.complete(type);
+                            transform.Rotate(0.0f, 0.0f, rotMin-rotZ, Space.Self);
+                            going = false;
+                        }
                     }
                     break;
                 case "R":
-                    if(open && (rotZ > rotMax)){
-                        transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                    }else if(!open && rotZ < rotMin){
-                        transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                    if(open){
+                        if(rotZ > rotMax){
+                            transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                        }else{
+                            manager.complete(type);
+                            transform.Rotate(0.0f, 0.0f, rotMax-rotZ, Space.Self);
+                            going = false;
+                        }
                     }else{
-                        // manager.complete(type);
-                        going = false;
+                        if(rotZ < rotMin){
+                            transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                        }else{
+                            manager.complete(type);
+                            transform.Rotate(0.0f, 0.0f, rotMin-rotZ, Space.Self);
+                            going = false;
+                        }
                     }
                     break;
                 case "claw":
-                    if(open && rotZ > rotMax){
-                        transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                    }else if(!open && (rotZ < rotMin)){
-                        transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                    if(open){
+                        if(rotZ > rotMax){
+                            transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                        }else{
+                            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMax);
+                            going = false;
+                        }
+                    }else{
+                        if(rotZ < rotMin){
+                            transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                        }else{
+                            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMin);
+                            going = false;
+                        }
                     }
                     break;
             }

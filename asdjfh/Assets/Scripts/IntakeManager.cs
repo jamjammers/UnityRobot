@@ -45,6 +45,7 @@ public class IntakeManager : MonoBehaviour
             case "R":
                 if(rProg == prog.TOCLOSE){
                     rProg = prog.CLOSE;
+                    if(toIntermediate){BroadcastMessage("moveClaw");}
                 }else if(rProg == prog.TOOPEN){
                     rProg = prog.OPEN;
                 }
