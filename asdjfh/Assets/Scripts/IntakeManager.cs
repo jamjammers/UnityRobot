@@ -7,12 +7,12 @@ using System.Reflection;
 
 public class IntakeManager : MonoBehaviour
 {
-    bool rOpen = false;
+    public bool rOpen = false;
     prog rProg = prog.CLOSE;
-    bool lOpen = false;
+    public bool lOpen = false;
     prog lProg = prog.CLOSE;
 
-    bool toIntermediate = false;
+    public bool toIntermediate = false;
 
     //only measures the vertical change
     float ARMMAX = 0.25f;//0.3?
@@ -37,15 +37,16 @@ public class IntakeManager : MonoBehaviour
             case "L":
                 if(lProg == prog.TOCLOSE){
                     lProg = prog.CLOSE;
-                    if(toIntermediate){BroadcastMessage("moveClaw");}
+                    if(toIntermediate){ BroadcastMessage("moveClaw"); toIntermediate = false; Debug.Log("L");}
                 }else if(lProg == prog.TOOPEN){
                     lProg = prog.OPEN;
                 }
                 break;
             case "R":
+            
                 if(rProg == prog.TOCLOSE){
                     rProg = prog.CLOSE;
-                    if(toIntermediate){BroadcastMessage("moveClaw");}
+                    if(toIntermediate){ BroadcastMessage("moveClaw"); toIntermediate = false; Debug.Log("R");}
                 }else if(rProg == prog.TOOPEN){
                     rProg = prog.OPEN;
                 }
@@ -56,27 +57,32 @@ public class IntakeManager : MonoBehaviour
         return mode == TPos.PLACING;
         }
 
-    public void IAgrabAll(){
-        if(mode == TPos.INTAKING || mode == TPos.PLACING){
-            if(rOpen==lOpen){
-                BroadcastMessage("grab"+(rOpen?"L":"R"));
-                if(!rOpen){ rProg = prog.TOCLOSE; }
-                if(!lOpen){ lProg = prog.TOCLOSE; }
-                rOpen = false;
-                lOpen = false;
-                toIntermediate = true;
-            }else{
-                BroadcastMessage("grabL");
-                BroadcastMessage("grabR");
-                rOpen = !rOpen;
-                lOpen = !lOpen;
-                if(rOpen){
-                    rProg = prog.TOOPEN;
-                    lProg = prog.TOOPEN;
-                }else{
+    public void IAgrabAll(InputAction.CallbackContext ctx){
+        if(ctx.phase == (InputActionPhase) 3){
+            if(mode == TPos.INTAKING || mode == TPos.PLACING){
+                if(rOpen ^ lOpen){
+                    Debug.Log("xor");
+                    BroadcastMessage("grab"+(rOpen?"L":"R"));
+                    if(!rOpen){ rProg = prog.TOCLOSE; }
+                    if(!lOpen){ lProg = prog.TOCLOSE; }
+                    rOpen = false;
+                    lOpen = false;
                     toIntermediate = true;
-                    rProg = prog.TOCLOSE;
-                    lProg = prog.TOCLOSE;
+                }else{
+                    Debug.Log("xnor");
+                    BroadcastMessage("grabL");
+                    BroadcastMessage("grabR");
+                    rOpen = !rOpen;
+                    lOpen = !lOpen;
+                    if(rOpen){
+                        toIntermediate = false;
+                        rProg = prog.TOOPEN;
+                        lProg = prog.TOOPEN;
+                    }else{
+                        toIntermediate = true;
+                        rProg = prog.TOCLOSE;
+                        lProg = prog.TOCLOSE;
+                    }
                 }
             }
         }
@@ -84,6 +90,7 @@ public class IntakeManager : MonoBehaviour
     
     public void IAgrabL(){
         if(mode == TPos.INTAKING || mode == TPos.PLACING){
+            toIntermediate = false;
             BroadcastMessage("grabL");
             lOpen = !lOpen;
             if(lOpen){ lProg = prog.TOOPEN; }
@@ -91,6 +98,7 @@ public class IntakeManager : MonoBehaviour
         }
         }
     public void IAgrabR(){
+        toIntermediate = false;
         if(mode == TPos.INTAKING || mode == TPos.PLACING){
             BroadcastMessage("grabR");
             rOpen = !rOpen;

@@ -516,10 +516,10 @@ MonoBehaviour:
     m_ActionName: Player 1/rotate[/XInputControllerWindows/rightStick/left,/XInputControllerWindows/rightStick/right]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 744812480}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: BroadcastMessage
-        m_Mode: 5
+      - m_Target: {fileID: 744812482}
+        m_TargetAssemblyTypeName: IntakeManager, Assembly-CSharp
+        m_MethodName: IAgrabAll
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -532,10 +532,10 @@ MonoBehaviour:
     m_ActionName: Player 1/grabAll[/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 744812480}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: BroadcastMessage
-        m_Mode: 5
+      - m_Target: {fileID: 744812482}
+        m_TargetAssemblyTypeName: IntakeManager, Assembly-CSharp
+        m_MethodName: IAgrabL
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -548,10 +548,10 @@ MonoBehaviour:
     m_ActionName: Player 1/grabL[/Keyboard/q]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 744812480}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: BroadcastMessage
-        m_Mode: 5
+      - m_Target: {fileID: 744812482}
+        m_TargetAssemblyTypeName: IntakeManager, Assembly-CSharp
+        m_MethodName: IAgrabR
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -995,6 +995,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3734eec70f45943078a07b675bec0f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rOpen: 0
+  lOpen: 0
+  toIntermediate: 0
 --- !u!1 &822496691
 GameObject:
   m_ObjectHideFlags: 0

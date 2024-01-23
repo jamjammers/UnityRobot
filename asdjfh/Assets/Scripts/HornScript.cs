@@ -12,7 +12,7 @@ public class HornScript : MonoBehaviour
     public float rotMax = 0;
 
     public bool open = false;
-    public bool going = true;
+    public bool going = false;
     public float rotZ;
 
 
@@ -64,7 +64,7 @@ public class HornScript : MonoBehaviour
                         if(rotZ < rotMax){
                             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
                         }else{
-                            manager.complete(type);
+                            // manager.complete(type);
                             transform.Rotate(0.0f, 0.0f, rotMax-rotZ, Space.Self);
                             going = false;
                         }
@@ -72,7 +72,7 @@ public class HornScript : MonoBehaviour
                         if(rotZ > rotMin){
                             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
                         }else{
-                            manager.complete(type);
+                            // manager.complete(type);
                             transform.Rotate(0.0f, 0.0f, rotMin-rotZ, Space.Self);
                             going = false;
                         }
@@ -83,7 +83,7 @@ public class HornScript : MonoBehaviour
                         if(rotZ > rotMax){
                             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
                         }else{
-                            manager.complete(type);
+                            // manager.complete(type);
                             transform.Rotate(0.0f, 0.0f, rotMax-rotZ, Space.Self);
                             going = false;
                         }
@@ -91,7 +91,7 @@ public class HornScript : MonoBehaviour
                         if(rotZ < rotMin){
                             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
                         }else{
-                            manager.complete(type);
+                            // manager.complete(type);
                             transform.Rotate(0.0f, 0.0f, rotMin-rotZ, Space.Self);
                             going = false;
                         }
