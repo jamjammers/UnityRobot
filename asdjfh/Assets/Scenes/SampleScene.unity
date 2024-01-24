@@ -995,9 +995,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3734eec70f45943078a07b675bec0f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gripWait: 0
   rOpen: 0
   lOpen: 0
   toIntermediate: 0
+  mode: 0
 --- !u!1 &822496691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,7 +1134,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822496691}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.2153604, y: 0.02362253, z: -3.0838614}
+  m_LocalPosition: {x: 0.175, y: 0.02362253, z: -3.0838614}
   m_LocalScale: {x: 4, y: 4, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8560,8 +8562,8 @@ Rigidbody:
   m_GameObject: {fileID: 689817414764923281}
   serializedVersion: 2
   m_Mass: 5
-  m_Drag: 2
-  m_AngularDrag: 0
+  m_Drag: 3
+  m_AngularDrag: 3
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -50809,8 +50811,8 @@ MonoBehaviour:
   type: R
   rotMin: 0
   rotMax: 0
-  open: 1
-  going: 1
+  open: 0
+  going: 0
   rotZ: 0
   managerObj: {fileID: 744812480}
   manager: {fileID: 0}
@@ -79914,8 +79916,8 @@ MonoBehaviour:
   type: L
   rotMin: 0
   rotMax: 0
-  open: 1
-  going: 1
+  open: 0
+  going: 0
   rotZ: 0
   managerObj: {fileID: 744812480}
   manager: {fileID: 0}

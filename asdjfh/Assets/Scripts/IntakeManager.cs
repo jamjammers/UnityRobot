@@ -7,6 +7,8 @@ using System.Reflection;
 
 public class IntakeManager : MonoBehaviour
 {
+    public bool gripWait = false;
+
     public bool rOpen = false;
     prog rProg = prog.CLOSE;
     public bool lOpen = false;
@@ -19,7 +21,7 @@ public class IntakeManager : MonoBehaviour
     float ARMMIN = 0;
     float armHeight = 0;
 
-    TPos mode = TPos.INTAKING;
+    public TPos mode = TPos.INTAKING;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +39,11 @@ public class IntakeManager : MonoBehaviour
             case "L":
                 if(lProg == prog.TOCLOSE){
                     lProg = prog.CLOSE;
-                    if(toIntermediate){ BroadcastMessage("moveClaw"); toIntermediate = false; Debug.Log("L");}
+                    if(toIntermediate){ 
+                        Invoke("oHornMess", .1f); 
+                        toIntermediate = false; 
+                        mode = TPos.INTAKING_INTERMEDIATE ;
+                        }
                 }else if(lProg == prog.TOOPEN){
                     lProg = prog.OPEN;
                 }
@@ -46,44 +52,53 @@ public class IntakeManager : MonoBehaviour
             
                 if(rProg == prog.TOCLOSE){
                     rProg = prog.CLOSE;
-                    if(toIntermediate){ BroadcastMessage("moveClaw"); toIntermediate = false; Debug.Log("R");}
+                    if(toIntermediate){
+                        Invoke("oHornMess", .1f);
+                        toIntermediate = false; 
+                        mode = TPos.INTAKING_INTERMEDIATE;
+                        }
                 }else if(rProg == prog.TOOPEN){
                     rProg = prog.OPEN;
                 }
                 break;
+            case "claw":
+                if(gripWait){
+                    mode = TPos.INTAKING;
+                    BroadcastMessage("openHorn", "all");
+                    rProg = lProg = prog.OPEN;
+                    rOpen = lOpen = true;
+                }
+
+                break;
         }
         }
-    public bool isPlacing(){
-        return mode == TPos.PLACING;
+    public void oHornMess(){
+        BroadcastMessage("openHorn", "claw");
+    }
+    public TPos getMode(){
+        return mode;
         }
+    public void setMode(TPos t){
+        mode = t;
+    }
 
     public void IAgrabAll(InputAction.CallbackContext ctx){
         if(ctx.phase == (InputActionPhase) 3){
             if(mode == TPos.INTAKING || mode == TPos.PLACING){
-                if(rOpen ^ lOpen){
-                    Debug.Log("xor");
-                    BroadcastMessage("grab"+(rOpen?"L":"R"));
-                    if(!rOpen){ rProg = prog.TOCLOSE; }
-                    if(!lOpen){ lProg = prog.TOCLOSE; }
-                    rOpen = false;
-                    lOpen = false;
+                if(rOpen || lOpen){
+                    BroadcastMessage("closeHorn", "all");
+                    rOpen = lOpen = false;
+                    rProg = lProg = prog.TOCLOSE;
                     toIntermediate = true;
                 }else{
-                    Debug.Log("xnor");
-                    BroadcastMessage("grabL");
-                    BroadcastMessage("grabR");
-                    rOpen = !rOpen;
-                    lOpen = !lOpen;
-                    if(rOpen){
-                        toIntermediate = false;
-                        rProg = prog.TOOPEN;
-                        lProg = prog.TOOPEN;
-                    }else{
-                        toIntermediate = true;
-                        rProg = prog.TOCLOSE;
-                        lProg = prog.TOCLOSE;
-                    }
+                    BroadcastMessage("openHorn", "all");
+                    rOpen = lOpen = true;
+                    rProg = lProg = prog.TOOPEN;
+                    toIntermediate = false;
                 }
+            }else if(mode == TPos.INTAKING_INTERMEDIATE){
+                BroadcastMessage("closeHorn", "claw");
+                gripWait = true;
             }
         }
         }
@@ -118,10 +133,6 @@ public class IntakeManager : MonoBehaviour
 
         
         //move up * ctx, angle of 60 from ground, broad cast it to slides if we are in intake mode, else not
-        }
-        public void grabAll(){
-            Debug.Log("Deprecated");
-
         }
         // public void grabL(){
         //     BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);

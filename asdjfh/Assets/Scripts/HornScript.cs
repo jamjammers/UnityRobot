@@ -22,6 +22,7 @@ public class HornScript : MonoBehaviour
     void Start()
     {
         manager = managerObj.GetComponent<IntakeManager>();
+        
         switch(type){
             case "L":
                 rotMin = 0;
@@ -83,7 +84,7 @@ public class HornScript : MonoBehaviour
                         if(rotZ > rotMax){
                             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
                         }else{
-                            // manager.complete(type);
+                            manager.complete(type);
                             transform.Rotate(0.0f, 0.0f, rotMax-rotZ, Space.Self);
                             going = false;
                         }
@@ -91,7 +92,7 @@ public class HornScript : MonoBehaviour
                         if(rotZ < rotMin){
                             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
                         }else{
-                            // manager.complete(type);
+                            manager.complete(type);
                             transform.Rotate(0.0f, 0.0f, rotMin-rotZ, Space.Self);
                             going = false;
                         }
@@ -109,6 +110,7 @@ public class HornScript : MonoBehaviour
                         if(rotZ < rotMin){
                             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
                         }else{
+                            manager.complete("claw");
                             transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMin);
                             going = false;
                         }
@@ -116,6 +118,22 @@ public class HornScript : MonoBehaviour
                     break;
             }
         }
+    }
+    public void openHorn(string t){
+        if(type == t || (t == "all" && type != "claw")){
+            going = true;
+            open = true;
+            if(type != "claw"){
+                BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
+            }
+        }
+    }
+    public void closeHorn(string t){
+        if(type == t || (t == "all" && type != "claw")){
+            going = true;
+            open = false;
+        }
+
     }
     public void grabR(){
         if(type == "R"){
@@ -133,9 +151,9 @@ public class HornScript : MonoBehaviour
         }
     }
     public void moveClaw(){
+
         if(type == "claw"){
-            going = true;
-            open = !open;
+            Debug.Log("deprecated");
         }
     }
 }
