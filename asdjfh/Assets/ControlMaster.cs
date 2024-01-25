@@ -89,6 +89,15 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""slowmode"",
+                    ""type"": ""Button"",
+                    ""id"": ""a161c023-46ed-420c-be6f-7dfacd4eb5f0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -366,6 +375,17 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""action"": ""arm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e764cab-7a6f-4ea1-aa99-cdcd1ab2c7f9"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""slowmode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -414,6 +434,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         m_Player1_grabL = m_Player1.FindAction("grabL", throwIfNotFound: true);
         m_Player1_grabR = m_Player1.FindAction("grabR", throwIfNotFound: true);
         m_Player1_arm = m_Player1.FindAction("arm", throwIfNotFound: true);
+        m_Player1_slowmode = m_Player1.FindAction("slowmode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -480,6 +501,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_grabL;
     private readonly InputAction m_Player1_grabR;
     private readonly InputAction m_Player1_arm;
+    private readonly InputAction m_Player1_slowmode;
     public struct Player1Actions
     {
         private @ControlMaster m_Wrapper;
@@ -491,6 +513,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         public InputAction @grabL => m_Wrapper.m_Player1_grabL;
         public InputAction @grabR => m_Wrapper.m_Player1_grabR;
         public InputAction @arm => m_Wrapper.m_Player1_arm;
+        public InputAction @slowmode => m_Wrapper.m_Player1_slowmode;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -521,6 +544,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @arm.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnArm;
                 @arm.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnArm;
                 @arm.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnArm;
+                @slowmode.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlowmode;
+                @slowmode.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlowmode;
+                @slowmode.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlowmode;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -546,6 +572,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @arm.started += instance.OnArm;
                 @arm.performed += instance.OnArm;
                 @arm.canceled += instance.OnArm;
+                @slowmode.started += instance.OnSlowmode;
+                @slowmode.performed += instance.OnSlowmode;
+                @slowmode.canceled += instance.OnSlowmode;
             }
         }
     }
@@ -577,5 +606,6 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         void OnGrabL(InputAction.CallbackContext context);
         void OnGrabR(InputAction.CallbackContext context);
         void OnArm(InputAction.CallbackContext context);
+        void OnSlowmode(InputAction.CallbackContext context);
     }
 }

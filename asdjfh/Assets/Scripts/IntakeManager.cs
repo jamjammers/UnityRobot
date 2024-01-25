@@ -34,7 +34,23 @@ public class IntakeManager : MonoBehaviour
 
     }
 
-    public void complete(string s){
+//getter and setter
+    public TPos getMode(){
+        return mode;
+        }
+
+    public void setMode(TPos t){
+        mode = t;
+    }
+
+ 
+//private
+    private void oHornMess(){
+        BroadcastMessage("openHorn", "claw");
+    }
+
+//outside access
+   public void complete(string s){
         switch(s){
             case "L":
                 if(lProg == prog.TOCLOSE){
@@ -72,16 +88,8 @@ public class IntakeManager : MonoBehaviour
                 break;
         }
         }
-    public void oHornMess(){
-        BroadcastMessage("openHorn", "claw");
-    }
-    public TPos getMode(){
-        return mode;
-        }
-    public void setMode(TPos t){
-        mode = t;
-    }
 
+//IA
     public void IAgrabAll(InputAction.CallbackContext ctx){
         if(ctx.phase == (InputActionPhase) 3){
             if(mode == TPos.INTAKING || mode == TPos.PLACING){
@@ -112,7 +120,8 @@ public class IntakeManager : MonoBehaviour
             else{ lProg = prog.TOCLOSE; }
         }
         }
-    public void IAgrabR(){
+   
+   public void IAgrabR(){
         toIntermediate = false;
         if(mode == TPos.INTAKING || mode == TPos.PLACING){
             BroadcastMessage("grabR");
@@ -123,35 +132,22 @@ public class IntakeManager : MonoBehaviour
         }
     public void IAmoveArm(InputAction.CallbackContext ctx){
         armHeight += ctx.ReadValue<Vector2>().y;
-        if(armHeight<ARMMIN){
-            armHeight = ARMMIN;
-        }
-        if(armHeight>ARMMAX){
-            armHeight = ARMMAX;
-        }
-        gameObject.BroadcastMessage("setArm", armHeight);
+        armHeight = Mathf.Max(Mathf.Min(ARMMIN, armHeight), ARMMAX);
+
+        gameObject.BroadcastMessage("setSlide", armHeight);
 
         
         //move up * ctx, angle of 60 from ground, broad cast it to slides if we are in intake mode, else not
         }
-        // public void grabL(){
-        //     BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
-
-        // }
-        // public void grabR(){
-        //     BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
-
-        // }
-//
 
 }
 
-
+//prog enum
 public enum prog{
     CLOSE, TOCLOSE, TOOPEN, OPEN
     }
-    
 
+//attributes of TPos (claw and ) 
 public class TPosAttr : Attribute{
         internal TPosAttr(float axonAngle, float clawAngle){
             this.axonAngle = axonAngle;
@@ -161,6 +157,7 @@ public class TPosAttr : Attribute{
         public double clawAngle{get; private set;}
     }
 
+//medium to do the things
 public static class TPosClass{
 
     public static double getAxonAngle(this TPos pos)
@@ -187,6 +184,7 @@ public static class TPosClass{
 
     }
 
+//actual enum
 public enum TPos{
     [TPosAttr(0, 0)]INTAKING,
     [TPosAttr(0, -100)]INTAKING_INTERMEDIATE,

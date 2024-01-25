@@ -7,7 +7,7 @@ using static MotorClass;
 public class DriveTrain : MonoBehaviour
 {
     //Edit → Project Settings → Physics → Gravity.
-
+    public float fsAngle = 90;
     public Rigidbody rb;
     public GameObject center;
     public float Horiz;
@@ -25,6 +25,7 @@ public class DriveTrain : MonoBehaviour
     public bool moveX;
     public bool moveZ;
 
+    public float slow;
     // [SerializeField]
     // private InputActionReference move;
     // Start is called before the first frame update
@@ -51,7 +52,7 @@ public class DriveTrain : MonoBehaviour
     {
         upkeep();
 
-        dumbFieldCentric(accelX, accelZ, accelRot);
+        smartFS(accelX, accelZ, accelRot);
 
         // roboCentric(accelX, accelZ, accelRot);
 
@@ -103,17 +104,33 @@ public class DriveTrain : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
         rb.MoveRotation(transform.rotation * rotation);
     }
+    void smartFS(float strafement, float movement, float rot){
+        Vector3 IW = indWheel(strafement, movement, rot);
+        float angle = fsAngle * Mathf.PI / 180;
+        outThing = new Vector3(- Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x, 0, Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(fsAngle) * rb.velocity.z);
 
+        moveX = Mathf.Abs(Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x) < (10 * Mathf.Abs(IW.x));
+        moveZ = Mathf.Abs( - Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z) < (10 * Mathf.Abs(IW.y));
+
+        float zResult = (moveX? Mathf.Cos(angle) * IW.x : 0) + (moveZ? Mathf.Sin(angle) * IW.y : 0);
+        float xResult = (moveZ? - Mathf.Cos(angle) * IW.y : 0) + (moveX? Mathf.Sin(angle) * IW.x : 0);
+
+        rb.velocity = new Vector3(rb.velocity.x/1.1f + xResult * 2f, -0.1f, rb.velocity.z/1.1f + zResult * 2f);
+
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
+        rb.MoveRotation(transform.rotation * rotation);
+
+    }
 
     Vector3 indWheel(float x, float y, float r){
 
 
         float denominator = Mathf.Max(Mathf.Abs(x) + Mathf.Abs(y) + Mathf.Abs(r), 1);
 
-        float leftFrontPower =  (y + x + r) / denominator;
-        float leftBackPower =   (y - x + r) / denominator;
-        float rightFrontPower = (y - x - r) / denominator;
-        float rightBackPower =  (y + x - r) / denominator;
+        float leftFrontPower =  (y + x + r) / denominator * slow;
+        float leftBackPower =   (y - x + r) / denominator * slow;
+        float rightFrontPower = (y - x - r) / denominator * slow;
+        float rightBackPower =  (y + x - r) / denominator * slow;
 
 
         float rotDiff = (leftFrontPower + leftBackPower - rightFrontPower - rightBackPower) / 4;
@@ -131,13 +148,15 @@ public class DriveTrain : MonoBehaviour
     public void reset(InputAction.CallbackContext ctx){
     //only does it on press, not when you release the button
         if(ctx.phase == (InputActionPhase) 3){
-            transform.position = new Vector3(0, 0.5f, 0);
-            transform.rotation = Quaternion.Euler(-90, 0, -90);
+            fsAngle = tRotEuler.y;
         }
     }
 
     public void rotate(InputAction.CallbackContext ctx){
         accelRot = ctx.ReadValue<Vector2>().x;
+    }
+    public void slowmode(InputAction.CallbackContext ctx){
+        slow = (ctx.phase == (InputActionPhase) 3)?0.4f:1f;
     }
 
 

@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "slowmode",
+                    "type": "Button",
+                    "id": "a161c023-46ed-420c-be6f-7dfacd4eb5f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -342,6 +351,17 @@
                     "processors": "",
                     "groups": "8BitDo (XBOX Bluetooth)",
                     "action": "arm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e764cab-7a6f-4ea1-aa99-cdcd1ab2c7f9",
+                    "path": "<Keyboard>/rightShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "slowmode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

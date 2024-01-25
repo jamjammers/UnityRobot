@@ -578,6 +578,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d3191ad7-d279-4981-9b97-4504f07b3715
     m_ActionName: Player 1/arm[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 689817414764923283}
+        m_TargetAssemblyTypeName: DriveTrain, Assembly-CSharp
+        m_MethodName: slowmode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a161c023-46ed-420c-be6f-7dfacd4eb5f0
+    m_ActionName: Player 1/slowmode[/Keyboard/rightShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player 1
@@ -8562,8 +8578,8 @@ Rigidbody:
   m_GameObject: {fileID: 689817414764923281}
   serializedVersion: 2
   m_Mass: 5
-  m_Drag: 3
-  m_AngularDrag: 3
+  m_Drag: 5
+  m_AngularDrag: 5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -8581,6 +8597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b478daf8e818e047ab10be093afe953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fsAngle: 90
   rb: {fileID: 689817414764923282}
   center: {fileID: 0}
   Horiz: 0
@@ -8592,6 +8609,7 @@ MonoBehaviour:
   outThing: {x: 0, y: 0, z: 0}
   moveX: 1
   moveZ: 1
+  slow: 0
 --- !u!1 &691729380524445684
 GameObject:
   m_ObjectHideFlags: 0
