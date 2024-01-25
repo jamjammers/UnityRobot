@@ -25,7 +25,7 @@ public class DriveTrain : MonoBehaviour
     public bool moveX;
     public bool moveZ;
 
-    public float slow;
+    public float slow = 1;
     // [SerializeField]
     // private InputActionReference move;
     // Start is called before the first frame update

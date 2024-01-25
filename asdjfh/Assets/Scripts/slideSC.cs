@@ -25,7 +25,7 @@ public class slideSC : MonoBehaviour
         
     }
     void FixedUpdate(){
-        transform.position.y
+        currentHeight = transform.position.y;
         /* if(manager.isplacing())
          * if height is really differnt from transform.y
          * transform.translate(new Vector3(0,0,coeff));
@@ -34,9 +34,9 @@ public class slideSC : MonoBehaviour
         */ 
         if(manager.getMode()==TPos.PLACING){
             if(idealHeight>currentHeight+0.1||idealHeight<currentHeight+0.1){
-                transform.translate(new Vector3(speedCoeff/Mathf.Sqrt(3), 0, speedCoeff));
+                transform.Translate(new Vector3(speedCoeff/Mathf.Sqrt(3), 0, speedCoeff));
             }else{
-                transform.position = new Vector3(idealHeight/Mathf.Sqrt(3), transform.position.z, height);
+                transform.position = new Vector3(idealHeight/Mathf.Sqrt(3), transform.position.z, idealHeight);
             }
         }
     }
