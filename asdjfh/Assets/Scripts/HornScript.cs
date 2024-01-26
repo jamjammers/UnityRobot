@@ -29,8 +29,8 @@ public class HornScript : MonoBehaviour
                 rotMax = 110;
                 break;
             case "R":
-                rotMin = 360;
-                rotMax = 250;
+                rotMin = 0;
+                rotMax = -110;
                 break;
             case "claw":
                 rotMin = 0;
@@ -45,13 +45,8 @@ public class HornScript : MonoBehaviour
         //setup the result
         if(type == "R" || type == "L"){
             rotZ = 180+transform.localRotation.eulerAngles.z;
-            if(type == "L"){
-                while(rotZ>180){rotZ -=360;}
-                while (rotZ<-180){rotZ +=360;}
-            }else{
-                while(rotZ>360){rotZ -=360;}
-                while (rotZ<0){rotZ +=360;}
-            }
+            while(rotZ>180){rotZ -=360;}
+            while (rotZ<-180){rotZ +=360;}
         }else{
             rotZ = transform.rotation.eulerAngles.z;
             while(rotZ>180){rotZ-=360;}
