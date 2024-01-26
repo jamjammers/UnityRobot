@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17276774, g: 0.21589114, b: 0.2978246, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589245, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1085,8 +1085,8 @@ Rigidbody:
   m_GameObject: {fileID: 822496691}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 4
-  m_AngularDrag: 4
+  m_Drag: 6
+  m_AngularDrag: 6
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -99496,8 +99496,8 @@ Rigidbody:
   m_GameObject: {fileID: 8219494092395655352}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 4
-  m_AngularDrag: 4
+  m_Drag: 6
+  m_AngularDrag: 6
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
