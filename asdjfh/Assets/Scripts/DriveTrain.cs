@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static MotorClass;
 
 public class DriveTrain : MonoBehaviour
 {
