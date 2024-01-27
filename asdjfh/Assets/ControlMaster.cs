@@ -98,6 +98,15 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Axons"",
+                    ""type"": ""Button"",
+                    ""id"": ""bf73ae25-89a8-43b8-b6e6-b1fe672a7907"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -386,6 +395,28 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""action"": ""slowmode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20424db2-79cf-482b-94e4-1bdb89edaaa2"",
+                    ""path"": ""<Keyboard>/rightCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""slowmode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1de0d8f-6cf2-4a40-a957-97d4bae52d4b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Axons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -435,6 +466,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         m_Player1_grabR = m_Player1.FindAction("grabR", throwIfNotFound: true);
         m_Player1_arm = m_Player1.FindAction("arm", throwIfNotFound: true);
         m_Player1_slowmode = m_Player1.FindAction("slowmode", throwIfNotFound: true);
+        m_Player1_Axons = m_Player1.FindAction("Axons", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -502,6 +534,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_grabR;
     private readonly InputAction m_Player1_arm;
     private readonly InputAction m_Player1_slowmode;
+    private readonly InputAction m_Player1_Axons;
     public struct Player1Actions
     {
         private @ControlMaster m_Wrapper;
@@ -514,6 +547,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         public InputAction @grabR => m_Wrapper.m_Player1_grabR;
         public InputAction @arm => m_Wrapper.m_Player1_arm;
         public InputAction @slowmode => m_Wrapper.m_Player1_slowmode;
+        public InputAction @Axons => m_Wrapper.m_Player1_Axons;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -547,6 +581,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @slowmode.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlowmode;
                 @slowmode.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlowmode;
                 @slowmode.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlowmode;
+                @Axons.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAxons;
+                @Axons.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAxons;
+                @Axons.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAxons;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -575,6 +612,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @slowmode.started += instance.OnSlowmode;
                 @slowmode.performed += instance.OnSlowmode;
                 @slowmode.canceled += instance.OnSlowmode;
+                @Axons.started += instance.OnAxons;
+                @Axons.performed += instance.OnAxons;
+                @Axons.canceled += instance.OnAxons;
             }
         }
     }
@@ -607,5 +647,6 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         void OnGrabR(InputAction.CallbackContext context);
         void OnArm(InputAction.CallbackContext context);
         void OnSlowmode(InputAction.CallbackContext context);
+        void OnAxons(InputAction.CallbackContext context);
     }
 }

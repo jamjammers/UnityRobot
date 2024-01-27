@@ -17,9 +17,9 @@ public class IntakeManager : MonoBehaviour
     public bool toIntermediate = false;
 
     //only measures the vertical change
-    float ARMMAX = 0.25f;//0.3?
-    float ARMMIN = 0;
-    float armHeight = 0;
+    float SLIDEMAX = 0.25f;//0.3?
+    float SLIDEMIN = 0;
+    float slideHeight = 0;
 
     public TPos mode = TPos.INTAKING;
     // Start is called before the first frame update
@@ -130,13 +130,14 @@ public class IntakeManager : MonoBehaviour
             else{ rProg = prog.TOCLOSE; }
         }    
         }
-    public void IAmoveArm(InputAction.CallbackContext ctx){
-        armHeight += ctx.ReadValue<Vector2>().y;
-        armHeight = Mathf.Max(Mathf.Min(ARMMIN, armHeight), ARMMAX);
+    public void IAmoveArm(){
+        BroadcastMessage("moveArm");
+    }
+    public void IAmoveSlides(InputAction.CallbackContext ctx){
+        slideHeight += ctx.ReadValue<Vector2>().y;
+        slideHeight = Mathf.Max(Mathf.Min(SLIDEMIN, slideHeight), SLIDEMAX);
 
-        gameObject.BroadcastMessage("setSlide", armHeight);
-
-        
+        gameObject.BroadcastMessage("setSlide", slideHeight);
         //move up * ctx, angle of 60 from ground, broad cast it to slides if we are in intake mode, else not
         }
 

@@ -36,6 +36,10 @@ public class HornScript : MonoBehaviour
                 rotMin = 0;
                 rotMax = -90;
                 break;
+            case "arm":
+                rotMin = 0;
+                rotMax = 140;
+                break;
         }
     }
 
