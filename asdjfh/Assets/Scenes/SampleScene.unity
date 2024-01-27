@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589245, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276774, g: 0.21589114, b: 0.2978246, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -564,10 +564,10 @@ MonoBehaviour:
     m_ActionName: Player 1/grabR1[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 744812480}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: BroadcastMessage
-        m_Mode: 5
+      - m_Target: {fileID: 744812482}
+        m_TargetAssemblyTypeName: IntakeManager, Assembly-CSharp
+        m_MethodName: IAmoveArm
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -594,6 +594,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a161c023-46ed-420c-be6f-7dfacd4eb5f0
     m_ActionName: Player 1/slowmode[/Keyboard/rightShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bf73ae25-89a8-43b8-b6e6-b1fe672a7907
+    m_ActionName: Player 1/Axons[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c03ed406-b9e4-4c22-a412-1b8c0ffa4597
+    m_ActionName: Player 1/slides[/Keyboard/upArrow,/Keyboard/downArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player 1
@@ -86503,6 +86511,7 @@ GameObject:
   - component: {fileID: 8592686708589828499}
   - component: {fileID: 2333756965205354900}
   - component: {fileID: 8592686708589828500}
+  - component: {fileID: 8592686708589828501}
   m_Layer: 0
   m_Name: RightArm
   m_TagString: Untagged
@@ -102365,6 +102374,26 @@ MonoBehaviour:
   notes: '[Placeholder]'
   tRotEuler: {x: 0, y: 0, z: 0}
   tRot: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8592686708589828501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7529275423607669765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 184e0f89837c1486d94aa26f1fa11dec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: arm
+  rotMin: 0
+  rotMax: 0
+  open: 0
+  going: 0
+  rotZ: 0
+  managerObj: {fileID: 744812480}
+  manager: {fileID: 0}
 --- !u!1 &8600183968107181481
 GameObject:
   m_ObjectHideFlags: 0

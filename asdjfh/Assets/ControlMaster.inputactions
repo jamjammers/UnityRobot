@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "slides",
+                    "type": "Value",
+                    "id": "c03ed406-b9e4-4c22-a412-1b8c0ffa4597",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -395,6 +404,61 @@
                     "action": "Axons",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "ea32b8b8-6b1c-4015-ab4a-796652be64db",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slides",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "1ba40a03-2de9-4236-b2f3-c9ec4af8cf65",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "slides",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "8d3da9ac-5db0-42df-9c7b-b629d80a33f5",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "slides",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "3d206a90-3442-455b-b894-716839e0b326",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "slides",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "cbfe729d-2e10-41d6-b35d-86471b23d191",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "8BitDo (XBOX Bluetooth)",
+                    "action": "slides",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

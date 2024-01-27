@@ -83,9 +83,12 @@ public class IntakeManager : MonoBehaviour
                     BroadcastMessage("openHorn", "all");
                     rProg = lProg = prog.OPEN;
                     rOpen = lOpen = true;
+                    // gripWait = false;
                 }
-
                 break;
+            case "arm":
+                BroadcastMessage("closeHorn", "claw");
+                break;    
         }
         }
 
@@ -121,18 +124,28 @@ public class IntakeManager : MonoBehaviour
         }
         }
    
-   public void IAgrabR(){
+    public void IAgrabR(){
         toIntermediate = false;
         if(mode == TPos.INTAKING || mode == TPos.PLACING){
             BroadcastMessage("grabR");
             rOpen = !rOpen;
             if(rOpen){ rProg = prog.TOOPEN; }
             else{ rProg = prog.TOCLOSE; }
-        }    
         }
+        }
+
+
     public void IAmoveArm(){
-        BroadcastMessage("moveArm");
-    }
+        if(mode == TPos.INTAKING_INTERMEDIATE || mode == TPos.DRIVING_INTERMEDIATE){
+            mode = TPos.PLACING;
+            BroadcastMessage("openHorn", "arm");
+
+        }else if(mode == TPos.PLACING){
+            mode = TPos.INTAKING;
+            BroadcastMessage("closeHorn", "arm");
+            
+        }
+        }
     public void IAmoveSlides(InputAction.CallbackContext ctx){
         slideHeight += ctx.ReadValue<Vector2>().y;
         slideHeight = Mathf.Max(Mathf.Min(SLIDEMIN, slideHeight), SLIDEMAX);

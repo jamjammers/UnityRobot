@@ -107,6 +107,15 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""slides"",
+                    ""type"": ""Value"",
+                    ""id"": ""c03ed406-b9e4-4c22-a412-1b8c0ffa4597"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -417,6 +426,61 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""action"": ""Axons"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""ea32b8b8-6b1c-4015-ab4a-796652be64db"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""slides"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""1ba40a03-2de9-4236-b2f3-c9ec4af8cf65"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""slides"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""8d3da9ac-5db0-42df-9c7b-b629d80a33f5"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""slides"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""3d206a90-3442-455b-b894-716839e0b326"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""slides"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""cbfe729d-2e10-41d6-b35d-86471b23d191"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""8BitDo (XBOX Bluetooth)"",
+                    ""action"": ""slides"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -467,6 +531,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         m_Player1_arm = m_Player1.FindAction("arm", throwIfNotFound: true);
         m_Player1_slowmode = m_Player1.FindAction("slowmode", throwIfNotFound: true);
         m_Player1_Axons = m_Player1.FindAction("Axons", throwIfNotFound: true);
+        m_Player1_slides = m_Player1.FindAction("slides", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -535,6 +600,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_arm;
     private readonly InputAction m_Player1_slowmode;
     private readonly InputAction m_Player1_Axons;
+    private readonly InputAction m_Player1_slides;
     public struct Player1Actions
     {
         private @ControlMaster m_Wrapper;
@@ -548,6 +614,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         public InputAction @arm => m_Wrapper.m_Player1_arm;
         public InputAction @slowmode => m_Wrapper.m_Player1_slowmode;
         public InputAction @Axons => m_Wrapper.m_Player1_Axons;
+        public InputAction @slides => m_Wrapper.m_Player1_slides;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -584,6 +651,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @Axons.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAxons;
                 @Axons.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAxons;
                 @Axons.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAxons;
+                @slides.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlides;
+                @slides.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlides;
+                @slides.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlides;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -615,6 +685,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @Axons.started += instance.OnAxons;
                 @Axons.performed += instance.OnAxons;
                 @Axons.canceled += instance.OnAxons;
+                @slides.started += instance.OnSlides;
+                @slides.performed += instance.OnSlides;
+                @slides.canceled += instance.OnSlides;
             }
         }
     }
@@ -648,5 +721,6 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         void OnArm(InputAction.CallbackContext context);
         void OnSlowmode(InputAction.CallbackContext context);
         void OnAxons(InputAction.CallbackContext context);
+        void OnSlides(InputAction.CallbackContext context);
     }
 }

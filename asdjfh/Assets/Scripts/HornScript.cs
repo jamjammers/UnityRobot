@@ -37,8 +37,8 @@ public class HornScript : MonoBehaviour
                 rotMax = -90;
                 break;
             case "arm":
-                rotMin = 0;
-                rotMax = 140;
+                rotMin = -180;
+                rotMax = -40;
                 break;
         }
     }
@@ -51,6 +51,9 @@ public class HornScript : MonoBehaviour
             rotZ = 180+transform.localRotation.eulerAngles.z;
             while(rotZ>180){rotZ -=360;}
             while (rotZ<-180){rotZ +=360;}
+        }else if(type == "arm"){
+            rotZ = transform.rotation.eulerAngles.z;
+            while(rotZ>0){rotZ-=360;}
         }else{
             rotZ = transform.rotation.eulerAngles.z;
             while(rotZ>180){rotZ-=360;}
@@ -115,20 +118,40 @@ public class HornScript : MonoBehaviour
                         }
                     }
                     break;
+                case "arm":
+                    if(open){
+                        if(rotZ < rotMax){
+                            transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                        }else{
+                            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMax);
+                            going = false;
+                        }
+                    }else{
+                        if(rotZ > rotMin){
+                            transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                        }else{
+                            manager.complete("arm");
+                            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMin);
+                            going = false;
+                        }
+                    }
+                    break;
             }
         }
     }
     public void openHorn(string t){
-        if(type == t || (t == "all" && type != "claw")){
+        if(type == t || (t == "all" && (type == "R" || type == "L"))){
+            Debug.Log(type);
             going = true;
             open = true;
-            if(type != "claw"){
+            if(type == "L" || type == "R"){
                 BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
             }
         }
     }
     public void closeHorn(string t){
-        if(type == t || (t == "all" && type != "claw")){
+        if(type == t || (t == "all" && (type == "R" || type == "L"))){
+            Debug.Log(type);
             going = true;
             open = false;
         }
