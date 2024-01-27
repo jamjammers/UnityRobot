@@ -20,6 +20,8 @@ public class pixelSC : MonoBehaviour
     public Collider target;
 
     public Rigidbody rb;
+
+    bool grabbed = false;
     void Start()
     {
         gameObject.GetComponent<MeshRenderer> ().material = Colors[(int)UnityEngine.Random.Range(0,Colors.Length)];
@@ -29,10 +31,14 @@ public class pixelSC : MonoBehaviour
     void Update()
     {
         
+        tRotEuler = transform.rotation.eulerAngles;
         if(c>1&&anyBase){
             Destroy(rb);
+            
             transform.SetParent(target.gameObject.transform.parent.parent);
+            adjustPixel();
             c = 0;
+            grabbed = true;
         }
         wasBase = isBase;
         isBase = false;
@@ -40,10 +46,16 @@ public class pixelSC : MonoBehaviour
             baseChain[i] = baseChain[i-1];
         }
         baseChain[0] = wasBase;
-        //for(i){ chain[i] = chain[i-1] } chain[0] = wasBase;
         anyBase = chain(baseChain);
         c=0;
+        //designed to auto release if it opens (a catch kinda idea)
+        if(grabbed){
+            //nest is designed to prevent errors
+            if(transform.parent.GetComponent<HornScript>().open){ release(); }
+            
+        }
     }
+    //collision check
     void OnCollisionStay(Collision col){
         
         Collider child = col.GetContact(0).otherCollider;
@@ -56,11 +68,13 @@ public class pixelSC : MonoBehaviour
         }
         
     }
+    //drop pixel
     public void release(){
+        grabbed = false;
         c=0;
         rb = gameObject.AddComponent(typeof(Rigidbody)) as Rigidbody;
-        rb.angularDrag = 4;
-        rb.drag = 4;
+        rb.angularDrag = 12;
+        rb.drag = 12;
         transform.parent = null;
     }
     private bool chain(bool[] ch){
@@ -68,5 +82,11 @@ public class pixelSC : MonoBehaviour
             if(x){return true; }
         }
         return false;
+    }
+    //when its up the pixels will go to the right place
+    public void adjustPixel(){
+        bool isRight = transform.parent.name == "RightGrips";
+        transform.localEulerAngles = new Vector3(90, 0, 90);
+        transform.localPosition = new Vector3(isRight? -0.033f : 0.025f, 0.115f, -0.0036f);
     }
 }

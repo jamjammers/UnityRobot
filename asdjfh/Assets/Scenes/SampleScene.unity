@@ -1085,8 +1085,8 @@ Rigidbody:
   m_GameObject: {fileID: 822496691}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 6
-  m_AngularDrag: 6
+  m_Drag: 10
+  m_AngularDrag: 10
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -33734,7 +33734,6 @@ GameObject:
   - component: {fileID: 7641695979186736010}
   - component: {fileID: 2555839112556951827}
   - component: {fileID: 7641695979186736011}
-  - component: {fileID: 7641695979186736012}
   m_Layer: 0
   m_Name: Aligner
   m_TagString: Untagged
@@ -88188,19 +88187,6 @@ MonoBehaviour:
   notes: '[Placeholder]'
   tRotEuler: {x: 0, y: 0, z: 0}
   tRot: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7641695979186736012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3158396703118619955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8edd57fc922ba4b849470aa3c51c169c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tRotEuler: {x: 0, y: 0, z: 0}
 --- !u!4 &7643229942617256589
 Transform:
   m_ObjectHideFlags: 0
@@ -99496,8 +99482,8 @@ Rigidbody:
   m_GameObject: {fileID: 8219494092395655352}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 6
-  m_AngularDrag: 6
+  m_Drag: 10
+  m_AngularDrag: 10
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
