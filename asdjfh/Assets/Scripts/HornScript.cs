@@ -33,8 +33,8 @@ public class HornScript : MonoBehaviour
                 rotMax = -110;
                 break;
             case "claw":
-                rotMin = 0;
-                rotMax = -90;
+                rotMin = -180;
+                rotMax = -270;
                 break;
             case "arm":
                 rotMin = -180;
@@ -55,8 +55,8 @@ public class HornScript : MonoBehaviour
             rotZ = transform.rotation.eulerAngles.z;
             while(rotZ>0){rotZ-=360;}
         }else{
-            rotZ = transform.rotation.eulerAngles.z;
-            while(rotZ>180){rotZ-=360;}
+            rotZ = transform.localRotation.eulerAngles.z;
+            while(rotZ>0){rotZ-=360;}
         }
         
 
@@ -101,40 +101,52 @@ public class HornScript : MonoBehaviour
                     }
                     break;
                 case "claw":
-                    if(open){
-                        if(rotZ > rotMax){
+                    if(manager.getMode() == TPos.PLACING){
+                        if(rotZ > -340){
                             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
                         }else{
-                            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMax);
+                            transform.Rotate(0.0f, 0.0f, -340 - rotZ, Space.Self);
                             going = false;
                         }
                     }else{
-                        if(rotZ < rotMin){
-                            transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                        if(open){
+                            if(rotZ > rotMax){
+                                transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                            }else{
+                                transform.Rotate(0.0f, 0.0f, rotMax - rotZ, Space.Self);
+                                going = false;
+                            }
                         }else{
-                            manager.complete("claw");
-                            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMin);
-                            going = false;
+                            if(rotZ < rotMin){
+                                transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                            }else{
+                                manager.complete(type);
+                                transform.Rotate(0.0f, 0.0f, rotMin - rotZ, Space.Self);
+                                going = false;
+                            }
                         }
                     }
                     break;
                 case "arm":
                     if(open){
                         if(rotZ < rotMax){
-                            transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
+                            transform.Rotate(0.0f, 0.0f, 6.0f, Space.Self);
                         }else{
                             transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMax);
                             going = false;
+                            manager.complete(type);
                         }
                     }else{
                         if(rotZ > rotMin){
-                            transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
+                            transform.Rotate(0.0f, 0.0f, -6.0f, Space.Self);
                         }else{
-                            manager.complete("arm");
+                            manager.setMode(TPos.INTAKING);
+                            manager.complete(type);
                             transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMin);
                             going = false;
                         }
                     }
+                    
                     break;
             }
         }
@@ -157,25 +169,10 @@ public class HornScript : MonoBehaviour
         }
 
     }
-    public void grabR(){
-        if(type == "R"){
+    public void activate(string t){
+        if(type == t){
             going = true;
-            open = !open;
-            BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
         }
     }
-    public void grabL(){
-        if(type == "L"){
-            going = true;
-            open = !open;
-            BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
 
-        }
-    }
-    public void moveClaw(){
-
-        if(type == "claw"){
-            Debug.Log("deprecated");
-        }
-    }
 }

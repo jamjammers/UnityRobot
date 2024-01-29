@@ -7,6 +7,7 @@ using System.Reflection;
 
 public class IntakeManager : MonoBehaviour
 {
+    //instance vars
     public bool gripWait = false;
 
     public bool rOpen = false;
@@ -16,10 +17,6 @@ public class IntakeManager : MonoBehaviour
 
     public bool toIntermediate = false;
 
-    //only measures the vertical change
-    float SLIDEMAX = 0.25f;//0.3?
-    float SLIDEMIN = 0;
-    float slideHeight = 0;
 
     public TPos mode = TPos.INTAKING;
     // Start is called before the first frame update
@@ -50,7 +47,7 @@ public class IntakeManager : MonoBehaviour
     }
 
 //outside access
-   public void complete(string s){
+    public void complete(string s){
         switch(s){
             case "L":
                 if(lProg == prog.TOCLOSE){
@@ -58,7 +55,7 @@ public class IntakeManager : MonoBehaviour
                     if(toIntermediate){ 
                         Invoke("oHornMess", .1f); 
                         toIntermediate = false; 
-                        mode = TPos.INTAKING_INTERMEDIATE ;
+                        if(mode != TPos.PLACING){ mode = TPos.INTAKING_INTERMEDIATE; }
                         }
                 }else if(lProg == prog.TOOPEN){
                     lProg = prog.OPEN;
@@ -71,7 +68,7 @@ public class IntakeManager : MonoBehaviour
                     if(toIntermediate){
                         Invoke("oHornMess", .1f);
                         toIntermediate = false; 
-                        mode = TPos.INTAKING_INTERMEDIATE;
+                        if(mode != TPos.PLACING){ mode = TPos.INTAKING_INTERMEDIATE; }
                         }
                 }else if(rProg == prog.TOOPEN){
                     rProg = prog.OPEN;
@@ -79,7 +76,7 @@ public class IntakeManager : MonoBehaviour
                 break;
             case "claw":
                 if(gripWait){
-                    mode = TPos.INTAKING;
+                    if(mode != TPos.PLACING){ mode = TPos.INTAKING; }
                     BroadcastMessage("openHorn", "all");
                     rProg = lProg = prog.OPEN;
                     rOpen = lOpen = true;
@@ -87,10 +84,15 @@ public class IntakeManager : MonoBehaviour
                 }
                 break;
             case "arm":
-                BroadcastMessage("closeHorn", "claw");
+                if(mode == TPos.PLACING){
+                    BroadcastMessage("openHorn", "claw");
+                }else{
+                    BroadcastMessage("closeHorn", "claw");
+                }
                 break;    
         }
         }
+
 
 //IA
     public void IAgrabAll(InputAction.CallbackContext ctx){
@@ -114,43 +116,53 @@ public class IntakeManager : MonoBehaviour
         }
         }
     
-    public void IAgrabL(){
-        if(mode == TPos.INTAKING || mode == TPos.PLACING){
-            toIntermediate = false;
-            BroadcastMessage("grabL");
-            lOpen = !lOpen;
-            if(lOpen){ lProg = prog.TOOPEN; }
-            else{ lProg = prog.TOCLOSE; }
+    public void IAgrabL(InputAction.CallbackContext ctx){
+        if(ctx.phase == (InputActionPhase) 3){
+            if(mode == TPos.INTAKING || mode == TPos.PLACING){
+                toIntermediate = false;
+                BroadcastMessage(lOpen?"closeHorn":"openHorn", "L");
+                lOpen = !lOpen;
+                if(lOpen){ lProg = prog.TOOPEN; }
+                else{ lProg = prog.TOCLOSE; }
+            }
         }
         }
    
-    public void IAgrabR(){
-        toIntermediate = false;
-        if(mode == TPos.INTAKING || mode == TPos.PLACING){
-            BroadcastMessage("grabR");
-            rOpen = !rOpen;
-            if(rOpen){ rProg = prog.TOOPEN; }
-            else{ rProg = prog.TOCLOSE; }
+    public void IAgrabR(InputAction.CallbackContext ctx){
+        if(ctx.phase == (InputActionPhase) 3){
+            toIntermediate = false;
+            if(mode == TPos.INTAKING || mode == TPos.PLACING){
+                BroadcastMessage(rOpen?"closeHorn":"openHorn", "R");
+                rOpen = !rOpen;
+                if(rOpen){ rProg = prog.TOOPEN; }
+                else{ rProg = prog.TOCLOSE; }
+            }
         }
         }
 
 
-    public void IAmoveArm(){
-        if(mode == TPos.INTAKING_INTERMEDIATE || mode == TPos.DRIVING_INTERMEDIATE){
-            mode = TPos.PLACING;
-            BroadcastMessage("openHorn", "arm");
+    public void IAmoveArm(InputAction.CallbackContext ctx){
+        if(ctx.phase == (InputActionPhase) 3){
 
-        }else if(mode == TPos.PLACING){
-            mode = TPos.INTAKING;
-            BroadcastMessage("closeHorn", "arm");
-            
+            if(mode == TPos.INTAKING_INTERMEDIATE || mode == TPos.DRIVING_INTERMEDIATE){
+                mode = TPos.PLACING;
+                toIntermediate = false; 
+                BroadcastMessage("openHorn", "arm");
+
+            }else if(mode == TPos.PLACING){
+                BroadcastMessage("closeHorn", "all");
+                BroadcastMessage("closeHorn", "arm");
+                
+            }
         }
         }
     public void IAmoveSlides(InputAction.CallbackContext ctx){
-        slideHeight += ctx.ReadValue<Vector2>().y;
-        slideHeight = Mathf.Max(Mathf.Min(SLIDEMIN, slideHeight), SLIDEMAX);
-
-        gameObject.BroadcastMessage("setSlide", slideHeight);
+        Debug.Log((int)ctx.phase);
+        if((int) ctx.phase == 4){
+            gameObject.BroadcastMessage("setSlideVelocity", 0);
+        }else{
+            gameObject.BroadcastMessage("setSlideVelocity", ctx.ReadValue<Vector2>().y);
+        }
         //move up * ctx, angle of 60 from ground, broad cast it to slides if we are in intake mode, else not
         }
 
