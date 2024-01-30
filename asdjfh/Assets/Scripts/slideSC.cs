@@ -22,6 +22,10 @@ public class slideSC : MonoBehaviour
 
     float SLIDEMAX = 0.25f;//0.3?
     float SLIDEMIN = 0;
+
+    float velo = 0;
+
+    bool end = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +36,7 @@ public class slideSC : MonoBehaviour
     void Update()
     {
         typeCoeff = (type == "inner")?0.5f:1;
-        speedCoeff = 0.1f;
+        speedCoeff = 0.05f;
     }
     void FixedUpdate(){
         locPos = transform.localPosition;
@@ -43,22 +47,42 @@ public class slideSC : MonoBehaviour
          * transform.translate(new Vector3(coeff/tan(60) which is root 3,0,0))
          * else position = new Vector3(height/root3,0,height)
         */ 
-        if(transform.localPosition.z > SLIDEMAX){
+        if(going){
             if(manager.getMode()==TPos.PLACING){
-                if(idealHeight < currentHeight - 0.01 || idealHeight > currentHeight + 0.02){
-                    float dir = (idealHeight < currentHeight)?-1:1;
-                    transform.Translate(new Vector3(dir * typeCoeff * speedCoeff / Mathf.Sqrt(3), 0,dir * typeCoeff * speedCoeff));
-                }else{
+                transform.Translate(new Vector3(1 / Mathf.Sqrt(3), 0, 1) * typeCoeff * velo * speedCoeff);
+                if(transform.localPosition.z > SLIDEMAX){
+                    transform.localPosition = new Vector3(1/Mathf.Sqrt(3), 0, 1) * typeCoeff * SLIDEMAX;
                     going = false;
-                    transform.localPosition = new Vector3(typeCoeff * idealHeight/Mathf.Sqrt(3), 0, typeCoeff * idealHeight);
+                    velo = 0;
+                }else if(transform.localPosition.z < SLIDEMIN){
+                    transform.localPosition = new Vector3(1/Mathf.Sqrt(3), 0, 1) * typeCoeff * SLIDEMIN;
+                    going = false;
+                    velo = 0;
+                    if(end){
+                        end = false;
+                        manager.complete("slides");
+                    }
                 }
+            
             }else{
                 going = false;
             }
         }
+        
     }
     public void setSlideVelocity(float h){
         going = true;
-        idealHeight = h;
+        velo = h;
+        Debug.Log(velo);
+    }
+    public void noSlideVelocity(){
+        going = true;
+        velo = 0;
+        Debug.Log(velo);
+    }
+    public void slideDown(){
+        velo = -1.25f;
+        going = true;
+        end = true;
     }
 }

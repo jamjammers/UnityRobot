@@ -153,7 +153,6 @@ public class HornScript : MonoBehaviour
     }
     public void openHorn(string t){
         if(type == t || (t == "all" && (type == "R" || type == "L"))){
-            Debug.Log(type);
             going = true;
             open = true;
             if(type == "L" || type == "R"){
@@ -163,7 +162,6 @@ public class HornScript : MonoBehaviour
     }
     public void closeHorn(string t){
         if(type == t || (t == "all" && (type == "R" || type == "L"))){
-            Debug.Log(type);
             going = true;
             open = false;
         }

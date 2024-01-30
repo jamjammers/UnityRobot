@@ -75,7 +75,9 @@ public class pixelSC : MonoBehaviour
         rb = gameObject.AddComponent(typeof(Rigidbody)) as Rigidbody;
         rb.angularDrag = 12;
         rb.drag = 12;
+        rb.velocity += new Vector3(0,-5,0);
         transform.parent = null;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
     private bool chain(bool[] ch){
         foreach(bool x in ch){
@@ -88,5 +90,10 @@ public class pixelSC : MonoBehaviour
         bool isRight = transform.parent.name == "RightGrips";
         transform.localEulerAngles = new Vector3(90, 0, 90);
         transform.localPosition = new Vector3(isRight? -0.033f : 0.025f, 0.115f, -0.0036f);
+    }
+    public void OnCollisionEnter(Collision col){
+        if(col.gameObject.name == "Board"){
+            rb.drag = rb.angularDrag = 0;
+        }
     }
 }

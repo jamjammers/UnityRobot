@@ -132,7 +132,7 @@ public class DriveTrain : MonoBehaviour
         float rightBackPower =  (y + x - r) / denominator * slow;
 
 
-        float rotDiff = (leftFrontPower + leftBackPower - rightFrontPower - rightBackPower) / 4;
+        float rotDiff = (leftFrontPower + leftBackPower - rightFrontPower - rightBackPower) / 3;
         float xDiff = (leftFrontPower - leftBackPower - rightFrontPower + rightBackPower) / 4;
         float zDiff = (leftFrontPower + leftBackPower + rightFrontPower + rightBackPower) / 4;
 

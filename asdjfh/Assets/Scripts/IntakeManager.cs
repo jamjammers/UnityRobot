@@ -19,6 +19,8 @@ public class IntakeManager : MonoBehaviour
 
 
     public TPos mode = TPos.INTAKING;
+
+    bool slideReady = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,13 +77,10 @@ public class IntakeManager : MonoBehaviour
                 }
                 break;
             case "claw":
-                if(gripWait){
-                    if(mode != TPos.PLACING){ mode = TPos.INTAKING; }
-                    BroadcastMessage("openHorn", "all");
-                    rProg = lProg = prog.OPEN;
-                    rOpen = lOpen = true;
-                    // gripWait = false;
-                }
+                BroadcastMessage("openHorn", "all");
+                if(mode != TPos.PLACING){ mode = TPos.INTAKING; }
+                rProg = lProg = prog.OPEN;
+                rOpen = lOpen = true;
                 break;
             case "arm":
                 if(mode == TPos.PLACING){
@@ -90,6 +89,12 @@ public class IntakeManager : MonoBehaviour
                     BroadcastMessage("closeHorn", "claw");
                 }
                 break;    
+            case "slides":
+                if(slideReady){
+                    slideReady = false;
+                    BroadcastMessage("closeHorn", "arm");
+                }
+                break;
         }
         }
 
@@ -151,16 +156,16 @@ public class IntakeManager : MonoBehaviour
 
             }else if(mode == TPos.PLACING){
                 BroadcastMessage("closeHorn", "all");
-                BroadcastMessage("closeHorn", "arm");
+                slideReady = true;
+                BroadcastMessage("slideDown");
                 
             }
         }
         }
     public void IAmoveSlides(InputAction.CallbackContext ctx){
-        Debug.Log((int)ctx.phase);
         if((int) ctx.phase == 4){
-            gameObject.BroadcastMessage("setSlideVelocity", 0);
-        }else{
+            gameObject.BroadcastMessage("noSlideVelocity");
+        }else if((int) ctx.phase == 3){
             gameObject.BroadcastMessage("setSlideVelocity", ctx.ReadValue<Vector2>().y);
         }
         //move up * ctx, angle of 60 from ground, broad cast it to slides if we are in intake mode, else not

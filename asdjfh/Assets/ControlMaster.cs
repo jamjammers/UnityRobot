@@ -397,7 +397,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4e764cab-7a6f-4ea1-aa99-cdcd1ab2c7f9"",
-                    ""path"": ""<Keyboard>/rightShift"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""8BitDo (XBOX Bluetooth)"",
@@ -408,7 +408,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""20424db2-79cf-482b-94e4-1bdb89edaaa2"",
-                    ""path"": ""<Keyboard>/rightCtrl"",
+                    ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
