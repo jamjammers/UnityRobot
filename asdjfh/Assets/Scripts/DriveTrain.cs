@@ -25,6 +25,7 @@ public class DriveTrain : MonoBehaviour
     public bool moveZ;
 
     public float slow = 1;
+    
     // [SerializeField]
     // private InputActionReference move;
     // Start is called before the first frame update
@@ -114,7 +115,7 @@ public class DriveTrain : MonoBehaviour
         float zResult = (moveX? Mathf.Cos(angle) * IW.x : 0) + (moveZ? Mathf.Sin(angle) * IW.y : 0);
         float xResult = (moveZ? - Mathf.Cos(angle) * IW.y : 0) + (moveX? Mathf.Sin(angle) * IW.x : 0);
 
-        rb.velocity = new Vector3(rb.velocity.x/1.1f + xResult * 2f, -0.1f, rb.velocity.z/1.1f + zResult * 2f);
+        rb.velocity = new Vector3(rb.velocity.x/1.1f + xResult * 1.5f, -0.1f, rb.velocity.z/1.1f + zResult * 1.5f);
 
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
         rb.MoveRotation(transform.rotation * rotation);
@@ -132,7 +133,7 @@ public class DriveTrain : MonoBehaviour
         float rightBackPower =  (y + x - r) / denominator * slow;
 
 
-        float rotDiff = (leftFrontPower + leftBackPower - rightFrontPower - rightBackPower) / 3;
+        float rotDiff = (leftFrontPower + leftBackPower - rightFrontPower - rightBackPower) / 3.5f;
         float xDiff = (leftFrontPower - leftBackPower - rightFrontPower + rightBackPower) / 4;
         float zDiff = (leftFrontPower + leftBackPower + rightFrontPower + rightBackPower) / 4;
 
