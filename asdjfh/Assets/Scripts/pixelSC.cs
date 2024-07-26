@@ -5,7 +5,8 @@ using System;
 public class pixelSC : MonoBehaviour
 {
     // Start is called before the first frame update
-    
+    public Vector3 startPos;
+
     public Vector3 tRotEuler;
     public int c = 0;
 
@@ -73,8 +74,7 @@ public class pixelSC : MonoBehaviour
         grabbed = false;
         c=0;
         rb = gameObject.AddComponent(typeof(Rigidbody)) as Rigidbody;
-        rb.angularDrag = 12;
-        rb.drag = 12;
+        rb.angularDrag = rb.drag = 12;
         rb.velocity += new Vector3(0,-5,0);
         transform.parent = null;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
@@ -85,6 +85,7 @@ public class pixelSC : MonoBehaviour
         }
         return false;
     }
+    //what is our profit margin
     //when its up the pixels will go to the right place
     public void adjustPixel(){
         bool isRight = transform.parent.name == "RightGrips";
@@ -94,6 +95,28 @@ public class pixelSC : MonoBehaviour
     public void OnCollisionEnter(Collision col){
         if(col.gameObject.name == "Board"){
             rb.drag = rb.angularDrag = 0;
+            rb.velocity += new Vector3(0,-5,0);
         }
+        else if(col.gameObject.name == "Pin"){
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,transform.localEulerAngles.y,30);
+            
+        }
+        else if(col.gameObject.name == "Ground"){
+            rb.angularDrag = rb.drag = 12;
+        }
+    }
+    public void pixelReset(){
+        transform.position = startPos;
+        if(grabbed){
+            grabbed = false;
+            c=0;
+            rb = gameObject.AddComponent(typeof(Rigidbody)) as Rigidbody;
+            rb.angularDrag = rb.drag = 12;
+            rb.velocity += new Vector3(0,-5,0);
+            transform.parent = null;
+            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        }
+        rb.angularDrag = rb.drag = 12;
+
     }
 }
