@@ -25,6 +25,8 @@ public class DriveTrain : MonoBehaviour
     public bool moveZ;
 
     public float slow = 1;
+
+    public bool go = false;
     
     // [SerializeField]
     // private InputActionReference move;
@@ -51,7 +53,7 @@ public class DriveTrain : MonoBehaviour
     void FixedUpdate()
     {
         upkeep();
-
+        if(!go) return;
         smartFS(accelX, accelZ, accelRot);
 
         // roboCentric(accelX, accelZ, accelRot);
@@ -158,7 +160,11 @@ public class DriveTrain : MonoBehaviour
     public void slowmode(InputAction.CallbackContext ctx){
         slow = (ctx.phase == (InputActionPhase) 3)?0.4f:1f;
     }
-
+    public void begin()
+    {
+        go = true;
+        BroadcastMessage("start");
+    }
 
     //classes
 

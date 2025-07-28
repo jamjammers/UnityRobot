@@ -116,6 +116,15 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PixelSpawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""2f36ac23-bcf5-4ee2-a336-8dba8dda1b9c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -481,6 +490,17 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                     ""action"": ""slides"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06cb45ff-bfe6-4949-9274-7db6a80b9069"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PixelSpawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -532,6 +552,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         m_Player1_slowmode = m_Player1.FindAction("slowmode", throwIfNotFound: true);
         m_Player1_Axons = m_Player1.FindAction("Axons", throwIfNotFound: true);
         m_Player1_slides = m_Player1.FindAction("slides", throwIfNotFound: true);
+        m_Player1_PixelSpawn = m_Player1.FindAction("PixelSpawn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -601,6 +622,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_slowmode;
     private readonly InputAction m_Player1_Axons;
     private readonly InputAction m_Player1_slides;
+    private readonly InputAction m_Player1_PixelSpawn;
     public struct Player1Actions
     {
         private @ControlMaster m_Wrapper;
@@ -615,6 +637,7 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         public InputAction @slowmode => m_Wrapper.m_Player1_slowmode;
         public InputAction @Axons => m_Wrapper.m_Player1_Axons;
         public InputAction @slides => m_Wrapper.m_Player1_slides;
+        public InputAction @PixelSpawn => m_Wrapper.m_Player1_PixelSpawn;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -654,6 +677,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @slides.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlides;
                 @slides.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlides;
                 @slides.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSlides;
+                @PixelSpawn.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnPixelSpawn;
+                @PixelSpawn.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnPixelSpawn;
+                @PixelSpawn.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnPixelSpawn;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -688,6 +714,9 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
                 @slides.started += instance.OnSlides;
                 @slides.performed += instance.OnSlides;
                 @slides.canceled += instance.OnSlides;
+                @PixelSpawn.started += instance.OnPixelSpawn;
+                @PixelSpawn.performed += instance.OnPixelSpawn;
+                @PixelSpawn.canceled += instance.OnPixelSpawn;
             }
         }
     }
@@ -722,5 +751,6 @@ public partial class @ControlMaster : IInputActionCollection2, IDisposable
         void OnSlowmode(InputAction.CallbackContext context);
         void OnAxons(InputAction.CallbackContext context);
         void OnSlides(InputAction.CallbackContext context);
+        void OnPixelSpawn(InputAction.CallbackContext context);
     }
 }

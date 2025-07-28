@@ -22,8 +22,9 @@ public class HornScript : MonoBehaviour
     void Start()
     {
         manager = managerObj.GetComponent<IntakeManager>();
-        
-        switch(type){
+
+        switch (type)
+        {
             case "L":
                 rotMin = 0;
                 rotMax = 110;
@@ -46,80 +47,121 @@ public class HornScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //setup the result
-        if(type == "R" || type == "L"){
-            rotZ = 180+transform.localRotation.eulerAngles.z;
-            while(rotZ>180){rotZ -=360;}
-            while (rotZ<-180){rotZ +=360;}
-        }else if(type == "arm"){
-            rotZ = transform.rotation.eulerAngles.z;
-            while(rotZ>0){rotZ-=360;}
-        }else{
-            rotZ = transform.localRotation.eulerAngles.z;
-            while(rotZ>0){rotZ-=360;}
-        }
-        
 
-        if(going){
-            switch(type){
+        //setup the result
+        if (type == "R" || type == "L")
+        {
+            rotZ = 180 + transform.localRotation.eulerAngles.z;
+            while (rotZ > 180) { rotZ -= 360; }
+            while (rotZ < -180) { rotZ += 360; }
+        }
+        else if (type == "arm")
+        {
+            rotZ = transform.rotation.eulerAngles.z;
+            while (rotZ > 0) { rotZ -= 360; }
+        }
+        else
+        {
+            rotZ = transform.localRotation.eulerAngles.z;
+            while (rotZ > 0) { rotZ -= 360; }
+        }
+
+
+        if (going)
+        {
+            switch (type)
+            {
                 case "L":
-                    if(open){
-                        if(rotZ < rotMax){
+                    if (open)
+                    {
+                        if (rotZ < rotMax)
+                        {
                             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-                        }else{
+                        }
+                        else
+                        {
                             manager.complete(type);
-                            transform.Rotate(0.0f, 0.0f, rotMax-rotZ, Space.Self);
+                            transform.Rotate(0.0f, 0.0f, rotMax - rotZ, Space.Self);
                             going = false;
                         }
-                    }else{
-                        if(rotZ > rotMin){
+                    }
+                    else
+                    {
+                        if (rotZ > rotMin)
+                        {
                             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                        }else{
+                        }
+                        else
+                        {
                             manager.complete(type);
-                            transform.Rotate(0.0f, 0.0f, rotMin-rotZ, Space.Self);
+                            transform.Rotate(0.0f, 0.0f, rotMin - rotZ, Space.Self);
                             going = false;
                         }
                     }
                     break;
                 case "R":
-                    if(open){
-                        if(rotZ > rotMax){
+                    if (open)
+                    {
+                        if (rotZ > rotMax)
+                        {
                             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                        }else{
+                        }
+                        else
+                        {
                             manager.complete(type);
-                            transform.Rotate(0.0f, 0.0f, rotMax-rotZ, Space.Self);
+                            transform.Rotate(0.0f, 0.0f, rotMax - rotZ, Space.Self);
                             going = false;
                         }
-                    }else{
-                        if(rotZ < rotMin){
+                    }
+                    else
+                    {
+                        if (rotZ < rotMin)
+                        {
                             transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-                        }else{
+                        }
+                        else
+                        {
                             manager.complete(type);
-                            transform.Rotate(0.0f, 0.0f, rotMin-rotZ, Space.Self);
+                            transform.Rotate(0.0f, 0.0f, rotMin - rotZ, Space.Self);
                             going = false;
                         }
                     }
                     break;
                 case "claw":
-                    if(manager.getMode() == TPos.PLACING){
-                        if(rotZ > -340){
+                    if (manager.getMode() == TPos.PLACING)
+                    {
+                        if (rotZ > -340)
+                        {
                             transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                        }else{
+                        }
+                        else
+                        {
                             transform.Rotate(0.0f, 0.0f, -340 - rotZ, Space.Self);
                             going = false;
                         }
-                    }else{
-                        if(open){
-                            if(rotZ > rotMax){
+                    }
+                    else
+                    {
+                        if (open)
+                        {
+                            if (rotZ > rotMax)
+                            {
                                 transform.Rotate(0.0f, 0.0f, -10.0f, Space.Self);
-                            }else{
+                            }
+                            else
+                            {
                                 transform.Rotate(0.0f, 0.0f, rotMax - rotZ, Space.Self);
                                 going = false;
                             }
-                        }else{
-                            if(rotZ < rotMin){
+                        }
+                        else
+                        {
+                            if (rotZ < rotMin)
+                            {
                                 transform.Rotate(0.0f, 0.0f, 10.0f, Space.Self);
-                            }else{
+                            }
+                            else
+                            {
                                 manager.complete(type);
                                 transform.Rotate(0.0f, 0.0f, rotMin - rotZ, Space.Self);
                                 going = false;
@@ -128,47 +170,63 @@ public class HornScript : MonoBehaviour
                     }
                     break;
                 case "arm":
-                    if(open){
-                        if(rotZ < rotMax){
+                    if (open)
+                    {
+                        if (rotZ < rotMax)
+                        {
                             transform.Rotate(0.0f, 0.0f, 6.0f, Space.Self);
-                        }else{
+                        }
+                        else
+                        {
                             transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMax);
                             going = false;
                             manager.complete(type);
                         }
-                    }else{
-                        if(rotZ > rotMin){
+                    }
+                    else
+                    {
+                        if (rotZ > rotMin)
+                        {
                             transform.Rotate(0.0f, 0.0f, -6.0f, Space.Self);
-                        }else{
+                        }
+                        else
+                        {
                             manager.setMode(TPos.INTAKING);
                             manager.complete(type);
                             transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, rotMin);
                             going = false;
                         }
                     }
-                    
+
                     break;
             }
         }
     }
-    public void openHorn(string t){
-        if(type == t || (t == "all" && (type == "R" || type == "L"))){
+    public void openHorn(string t)
+    {
+        if (type == t || (t == "all" && (type == "R" || type == "L")))
+        {
             going = true;
             open = true;
-            if(type == "L" || type == "R"){
+            if (type == "L" || type == "R")
+            {
                 BroadcastMessage("release", null, SendMessageOptions.DontRequireReceiver);
             }
         }
     }
-    public void closeHorn(string t){
-        if(type == t || (t == "all" && (type == "R" || type == "L"))){
+    public void closeHorn(string t)
+    {
+        if (type == t || (t == "all" && (type == "R" || type == "L")))
+        {
             going = true;
             open = false;
         }
 
     }
-    public void activate(string t){
-        if(type == t){
+    public void activate(string t)
+    {
+        if (type == t)
+        {
             going = true;
         }
     }
