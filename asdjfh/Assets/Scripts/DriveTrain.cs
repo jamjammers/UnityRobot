@@ -33,7 +33,7 @@ public class DriveTrain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Physics.IgnoreLayerCollision(3, 6);
     }
 
     // Update is called once per frame
@@ -118,7 +118,7 @@ public class DriveTrain : MonoBehaviour
         float zResult = (moveX ? Mathf.Cos(angle) * IW.x : 0) + (moveZ ? Mathf.Sin(angle) * IW.y : 0);
         float xResult = (moveZ ? -Mathf.Cos(angle) * IW.y : 0) + (moveX ? Mathf.Sin(angle) * IW.x : 0);
 
-        rb.AddForce(new Vector3(xResult, -0.1f, zResult), ForceMode.VelocityChange);
+        rb.AddForce(new Vector3(xResult, 0, zResult), ForceMode.VelocityChange);
         rb.AddTorque(new Vector3(0, IW.z ,0), ForceMode.VelocityChange);
     }
 
