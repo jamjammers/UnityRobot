@@ -27,12 +27,13 @@ public class DriveTrain : MonoBehaviour
     public float slow = 1;
 
     public bool go = false;
-    
+
     // [SerializeField]
     // private InputActionReference move;
     // Start is called before the first frame update
     void Start()
     {
+        
     }
 
     // Update is called once per frame
@@ -106,22 +107,19 @@ public class DriveTrain : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
         rb.MoveRotation(transform.rotation * rotation);
     }
-    void smartFS(float strafement, float movement, float rot){
+    void smartFS(float strafement, float movement, float rot)
+    {
         Vector3 IW = indWheel(strafement, movement, rot);
         float angle = fsAngle * Mathf.PI / 180;
-        outThing = new Vector3(- Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x, 0, Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(fsAngle) * rb.velocity.z);
 
         moveX = Mathf.Abs(Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x) < (10 * Mathf.Abs(IW.x));
-        moveZ = Mathf.Abs( - Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z) < (10 * Mathf.Abs(IW.y));
+        moveZ = Mathf.Abs(-Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z) < (10 * Mathf.Abs(IW.y));
 
-        float zResult = (moveX? Mathf.Cos(angle) * IW.x : 0) + (moveZ? Mathf.Sin(angle) * IW.y : 0);
-        float xResult = (moveZ? - Mathf.Cos(angle) * IW.y : 0) + (moveX? Mathf.Sin(angle) * IW.x : 0);
+        float zResult = (moveX ? Mathf.Cos(angle) * IW.x : 0) + (moveZ ? Mathf.Sin(angle) * IW.y : 0);
+        float xResult = (moveZ ? -Mathf.Cos(angle) * IW.y : 0) + (moveX ? Mathf.Sin(angle) * IW.x : 0);
 
-        rb.velocity = new Vector3(rb.velocity.x/1.1f + xResult * 1.5f, -0.1f, rb.velocity.z/1.1f + zResult * 1.5f);
-
-        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
-        rb.MoveRotation(transform.rotation * rotation);
-
+        rb.AddForce(new Vector3(xResult, -0.1f, zResult), ForceMode.VelocityChange);
+        rb.AddTorque(new Vector3(0, IW.z ,0), ForceMode.VelocityChange);
     }
 
     Vector3 indWheel(float x, float y, float r){
@@ -135,7 +133,7 @@ public class DriveTrain : MonoBehaviour
         float rightBackPower =  (y + x - r) / denominator * slow;
 
 
-        float rotDiff = (leftFrontPower + leftBackPower - rightFrontPower - rightBackPower) / 3.5f;
+        float rotDiff = (leftFrontPower + leftBackPower - rightFrontPower - rightBackPower) / 4f;
         float xDiff = (leftFrontPower - leftBackPower - rightFrontPower + rightBackPower) / 4;
         float zDiff = (leftFrontPower + leftBackPower + rightFrontPower + rightBackPower) / 4;
 

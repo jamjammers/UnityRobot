@@ -1227,7 +1227,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7278776096970379}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
 --- !u!65 &672729575
 BoxCollider:
@@ -1598,9 +1598,9 @@ Rigidbody:
   m_AngularDrag: 12
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!23 &822496695
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1834,7 +1834,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7278776096970379}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
 --- !u!65 &956424992
 BoxCollider:
@@ -1847,8 +1847,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0041154693, y: 0.072677396, z: 0.02000001}
-  m_Center: {x: 0.0019956012, y: 0.010973911, z: 0.03520004}
+  m_Size: {x: 0.04496957, y: 0.072677396, z: 0.02000001}
+  m_Center: {x: -0.0184314, y: 0.01097391, z: 0.03520004}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1980,7 +1980,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7278776096970379}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
 --- !u!65 &995879607
 BoxCollider:
@@ -2497,8 +2497,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.005257649, y: 0.072677396, z: 0.02000001}
-  m_Center: {x: 0.0010717286, y: 0.01097391, z: 0.03520004}
+  m_Size: {x: 0.04852759, y: 0.072677396, z: 0.02000001}
+  m_Center: {x: 0.022706708, y: 0.010973873, z: 0.03520004}
 --- !u!1 &1219714815
 GameObject:
   m_ObjectHideFlags: 0
@@ -3570,9 +3570,9 @@ Transform:
   - {fileID: 568231456506912829}
   - {fileID: 1588776605804206378}
   - {fileID: 1149646627}
+  - {fileID: 995879606}
   - {fileID: 672729574}
   - {fileID: 956424991}
-  - {fileID: 995879606}
   m_Father: {fileID: 1059487367}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10100,10 +10100,10 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689817414764923281}
   serializedVersion: 2
-  m_Mass: 5
+  m_Mass: 1e+9
   m_Drag: 5
   m_AngularDrag: 5
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 116
@@ -35257,6 +35257,7 @@ GameObject:
   - component: {fileID: 7641695979186736010}
   - component: {fileID: 2555839112556951827}
   - component: {fileID: 7641695979186736011}
+  - component: {fileID: 7641695979186736012}
   m_Layer: 0
   m_Name: Aligner
   m_TagString: Untagged
@@ -89725,6 +89726,19 @@ MonoBehaviour:
   notes: '[Placeholder]'
   tRotEuler: {x: 0, y: 0, z: 0}
   tRot: {x: 0, y: 0, z: 0, w: 0}
+--- !u!65 &7641695979186736012
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3158396703118619955}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.22159968, y: 0.026475543, z: 0.02000001}
+  m_Center: {x: -0.09508119, y: 0.05693526, z: 0.03520005}
 --- !u!4 &7643229942617256589
 Transform:
   m_ObjectHideFlags: 0
@@ -99934,7 +99948,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: -6629459905985477305, guid: e4edd9cd11a383f42a845fe0398ecd55, type: 3}
 --- !u!4 &8385485602502365590
 Transform:
@@ -101024,9 +101038,9 @@ Rigidbody:
   m_AngularDrag: 12
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &8445432085988316942
 MonoBehaviour:
   m_ObjectHideFlags: 0
