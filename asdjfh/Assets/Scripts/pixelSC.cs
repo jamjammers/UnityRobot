@@ -23,8 +23,12 @@ public class pixelSC : MonoBehaviour
     public Rigidbody rb;
 
     bool grabbed = false;
+
+    public List<GameObject> friends;
+    public bool onBoard = false;
     void Start()
     {
+        friends = new List<GameObject>();
         gameObject.GetComponent<MeshRenderer> ().material = Colors[(int)UnityEngine.Random.Range(0,Colors.Length)];
     }
 
@@ -56,19 +60,6 @@ public class pixelSC : MonoBehaviour
             
         }
     }
-    //collision check
-    void OnCollisionStay(Collision col){
-        
-        Collider child = col.GetContact(0).otherCollider;
-        if(child.name == "Squisher"){
-            target = child;
-            c++;
-
-        }else if(child.name == "SquisherB"){
-            isBase = true;
-        }
-        
-    }
     //drop pixel
     public void release(){
         grabbed = false;
@@ -79,6 +70,7 @@ public class pixelSC : MonoBehaviour
         transform.parent = null;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
+
     private bool chain(bool[] ch){
         foreach(bool x in ch){
             if(x){return true; }
@@ -87,6 +79,7 @@ public class pixelSC : MonoBehaviour
     }
     //what is our profit margin
     //when its up the pixels will go to the right place
+    //am i on crack?
     public void adjustPixel(){
         bool isRight = transform.parent.name == "RightGrips";
         transform.localEulerAngles = new Vector3(90, 0, 90);
@@ -96,6 +89,7 @@ public class pixelSC : MonoBehaviour
         if(col.gameObject.name == "Board"){
             rb.drag = rb.angularDrag = 0;
             rb.velocity += new Vector3(0,-5,0);
+            onBoard = true;
         }
         else if(col.gameObject.name == "Pin"){
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,transform.localEulerAngles.y,30);
@@ -103,6 +97,26 @@ public class pixelSC : MonoBehaviour
         }
         else if(col.gameObject.name == "Ground"){
             rb.angularDrag = rb.drag = 12;
+        }
+    }
+    public void OnCollisionStay(Collision col){
+
+        Collider child = col.GetContact(0).otherCollider;
+        if(child.name == "Squisher"){
+            target = child;
+            c++;
+
+        }else if(child.name == "SquisherB"){
+            isBase = true;
+        }
+        if(onBoard && col.gameObject.CompareTag("Pixel")){
+            friends.Add(col.gameObject);
+        }
+    }
+    public void OnCollisionExit(Collision col){
+        if(col.gameObject.name == "Board"){
+            rb.drag = rb.angularDrag = 12;
+            onBoard = false;
         }
     }
     public void pixelReset(){

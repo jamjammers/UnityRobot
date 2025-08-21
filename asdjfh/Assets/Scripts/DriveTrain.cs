@@ -19,8 +19,8 @@ public class DriveTrain : MonoBehaviour
     public float accelRot;
 
     
-    public Vector3 outThing;
-
+    public Vector2 outThing;
+    
     public bool moveX;
     public bool moveZ;
 
@@ -94,8 +94,6 @@ public class DriveTrain : MonoBehaviour
 
         float angle = tRotEuler.y * Mathf.PI / 180;
 
-        outThing = new Vector3(- Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x, 0, Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z);
-
         moveX = Mathf.Abs(Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x) < (10 * Mathf.Abs(IW.x));
         moveZ = Mathf.Abs( - Mathf.Cos(angle) * rb.velocity.x + Mathf.Sin(angle) * rb.velocity.z) < (10 * Mathf.Abs(IW.y));
 
@@ -107,9 +105,11 @@ public class DriveTrain : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 200) * IW.z * Time.fixedDeltaTime);
         rb.MoveRotation(transform.rotation * rotation);
     }
+
     void smartFS(float strafement, float movement, float rot)
     {
-        Vector3 IW = indWheel(strafement, movement, rot);
+        Vector2 normalized = normalizeVector(strafement, movement);
+        Vector3 IW = indWheel(normalized.x, normalized.y, rot);
         float angle = fsAngle * Mathf.PI / 180;
 
         moveX = Mathf.Abs(Mathf.Cos(angle) * rb.velocity.z + Mathf.Sin(angle) * rb.velocity.x) < (10 * Mathf.Abs(IW.x));
@@ -123,8 +123,6 @@ public class DriveTrain : MonoBehaviour
     }
 
     Vector3 indWheel(float x, float y, float r){
-
-
         float denominator = Mathf.Max(Mathf.Abs(x) + Mathf.Abs(y) + Mathf.Abs(r), 1);
 
         float leftFrontPower =  (y + x + r) / denominator * slow;
@@ -139,6 +137,45 @@ public class DriveTrain : MonoBehaviour
 
         return new Vector3(xDiff, zDiff, rotDiff);
     }
+
+    Vector2 normalizeVector(Vector2 stick){
+        //OTOD:actually normalize the vector here, keeping track of the original values
+
+        float mag = stick.magnitude;
+        Vector2 norm = stick / mag;
+
+        float a = Mathf.Acos(norm.x) * polarity(Mathf.Asin(norm.y));
+
+        float top = Mathf.Tan(Mathf.PI/2-a);
+        float bottom = -Mathf.Tan(Mathf.PI/2-a);
+
+        float right = Mathf.Tan(a);
+        float left = -Mathf.Tan(a);
+
+        //TODO: add yFinal
+        float yFinal = Mathf.Abs(a) > 3 * Mathf.PI / 4 ? left: 
+                    Mathf.Abs(a) < Mathf.PI / 4 ? right: 
+                    Mathf.PI / 4 < a && a < 3 * Mathf.PI / 4 ? 1:
+                    -Mathf.PI / 4 > a && a > -3 * Mathf.PI / 4 ? -1 : 0;
+
+        float xFinal = Mathf.Abs(a) > 3 * Mathf.PI / 4 ? -1 : 
+                    Mathf.Abs(a) < Mathf.PI / 4 ? 1 : 
+                    Mathf.PI / 4 < a && a < 3 * Mathf.PI / 4 ? top:
+                    -Mathf.PI / 4 > a && a > -3 * Mathf.PI / 4 ? bottom : 0;
+        outThing = new Vector2(xFinal, yFinal);
+        return new Vector2(xFinal, yFinal);
+    }
+
+    Vector2 normalizeVector(float x, float y){
+        //OTOD:actually normalize the vector here, keeping track of the original values
+        return normalizeVector(new Vector2(x,y));
+    }
+
+    int polarity(float num){
+        if(num == 0) return 1;
+        return (int)(num/Mathf.Abs(num));
+    }
+
     //inputmangerstuff
     public void onMove(InputAction.CallbackContext ctx){
         accelX = ctx.ReadValue<Vector2>().x;
@@ -152,12 +189,15 @@ public class DriveTrain : MonoBehaviour
         }
     }
 
+
     public void rotate(InputAction.CallbackContext ctx){
         accelRot = ctx.ReadValue<Vector2>().x;
     }
+
     public void slowmode(InputAction.CallbackContext ctx){
         slow = (ctx.phase == (InputActionPhase) 3)?0.4f:1f;
     }
+
     public void begin()
     {
         go = true;
